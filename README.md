@@ -35,11 +35,16 @@ model invented them.
 |---|---|
 | `ffmpeg` | on `PATH` — the render pipeline and the mux |
 | Node | `npm i @napi-rs/canvas roughjs` |
-| Python | `pip install fonttools kokoro-onnx soundfile scipy numpy` |
+| Python (shared) | `pip install fonttools soundfile scipy numpy` |
+| Python (English narration) | `pip install kokoro-onnx` + Kokoro ONNX models |
+| Python (Indonesian narration) | `pip install piper-tts` + `id_ID-fajri-medium` voice files |
 
 `roughjs` is only needed when the agreed style uses sketched or wobbling
 strokes; the Python audio stack only if you want music, sound design or
-narration. Check all three before planning a long render — finding out
+narration; and only the TTS engine matching the narration language actually
+picked in §0.1 — English → Kokoro, Indonesian → Piper (`facebook/mms-tts-ind`
+via `transformers` is the drop-in fallback when a female Indonesian voice
+is asked for). Check all four before planning a long render — finding out
 after 1800 frames is an avoidable afternoon.
 
 ## The spec

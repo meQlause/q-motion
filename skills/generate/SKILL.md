@@ -108,7 +108,16 @@ With narration, style and size settled, ask only for what is still open:
   mascot or logo).
 - Length — often implied by the narration read-through time; confirm the
   target.
-- Voice — gender/accent, or no narration.
+- Voice — gender/accent, or no narration. **Detect the language from the
+  narration text picked in §0.1** — Indonesian ("Halo, jadwal lapangan…")
+  routes to Piper (`id_ID-fajri-medium` male by default; `facebook/mms-tts-ind`
+  when a female voice is requested); English routes to Kokoro (`af_heart`
+  female, `am_michael` calm male, `bm_george` British male by default).
+  Confirm the detected language with the user before generating — a
+  mismatched engine speaks the words but pronounces them as if they were
+  the other language ("Halo" spoken with English phonemes is not what
+  anyone wants). Both engines share the audio pipeline in §8; the only
+  difference is which loader is called.
 
 Confirm the storyboard table before writing any code. Re-rendering is
 cheap; re-recording a narration track to fit a scene you have already
@@ -126,20 +135,37 @@ built is not.
 
 ```
 npm i @napi-rs/canvas roughjs          # canvas drawing; roughjs only if the chosen treatment uses sketched or wobbling strokes
-pip install fonttools kokoro-onnx soundfile scipy numpy
+pip install fonttools soundfile scipy numpy
+pip install kokoro-onnx                # English narration engine
+pip install piper-tts                  # Indonesian (and other non-English) narration engine
 ```
 
-`ffmpeg` must be on `PATH`. Check all three before planning a long render —
-finding out after building 1800 frames is an avoidable afternoon.
+`ffmpeg` must be on `PATH`. Check all four (npm deps, both TTS engines,
+ffmpeg) before planning a long render — finding out after building 1800
+frames is an avoidable afternoon. Install **only the TTS engine the chosen
+narration language actually needs**; if the narration is English-only, skip
+the `piper-tts` line, and vice versa.
 
 - Fonts: TTFs from `raw.githubusercontent.com/google/fonts/main/ofl/<family>/`.
   Make static weights from variable fonts:
   `fonttools varLib.instancer Font[wght].ttf wght=500 -o Font-Med.ttf`.
-  Register with `GlobalFonts.registerFromPath`
-- Voice (Kokoro): `kokoro-v1.0.int8.onnx` and `voices-v1.0.bin` from
-  `github.com/thewh1teagle/kokoro-onnx/releases` (model-files-v1.0).
-  Voices: `af_heart` (warm female), `am_michael` (calm male), `bm_george`
-  (British male). English only
+  Register with `GlobalFonts.registerFromPath`.
+- **English voice (Kokoro):** `kokoro-v1.0.int8.onnx` and `voices-v1.0.bin`
+  from `github.com/thewh1teagle/kokoro-onnx/releases` (model-files-v1.0).
+  Voices: `af_heart` (warm female), `am_michael` (calm male),
+  `bm_george` (British male).
+- **Indonesian voice (Piper):** ONNX model + config from
+  `huggingface.co/rhasspy/piper-voices/tree/main/id/id_ID`. Voices:
+  `id_ID-fajri-medium` (male, warm). Grab both files:
+
+  ```
+  curl -L -O https://huggingface.co/rhasspy/piper-voices/resolve/main/id/id_ID/fajri/medium/id_ID-fajri-medium.onnx
+  curl -L -O https://huggingface.co/rhasspy/piper-voices/resolve/main/id/id_ID/fajri/medium/id_ID-fajri-medium.onnx.json
+  ```
+
+  For a second voice or a female choice, `facebook/mms-tts-ind` on
+  HuggingFace via `transformers.VitsModel` is the drop-in fallback; ships
+  as one small model and needs no separate `.json`.
 
 ## 3. Architecture (one script)
 
@@ -234,9 +260,32 @@ ffmpeg -f rawvideo -pix_fmt rgba -s 1920x1080 -r 30 -i - \
 
 ## 8. Audio
 
-- **Narration:** one TTS clip per line (speed about 1.15). Print each clip's start,
-  end and duration; shorten words or move start times until no lines overlap and each
-  sits inside its scene
+- **Narration engine, routed by language** (see §0.4):
+
+  ```python
+  # narration.py — one loader function, two engines
+  def synth(line: str, out_wav: str, lang: str, voice: str) -> None:
+      if lang == 'en':
+          from kokoro_onnx import Kokoro
+          k = Kokoro('kokoro-v1.0.int8.onnx', 'voices-v1.0.bin')
+          samples, sr = k.create(line, voice=voice, speed=1.15, lang='en-us')
+      elif lang == 'id':
+          from piper import PiperVoice
+          v = PiperVoice.load(f'{voice}.onnx')  # e.g. 'id_ID-fajri-medium'
+          with open(out_wav, 'wb') as f:
+              v.synthesize(line, f, length_scale=0.87)  # ~1.15x speed
+          return
+      else:
+          raise ValueError(f'no engine configured for lang={lang!r}')
+      import soundfile as sf
+      sf.write(out_wav, samples, sr)
+  ```
+
+  Never call both engines on the same line. Never let one engine speak a
+  language it does not know — the result is real audio of pretend words.
+- **Narration timing:** one TTS clip per line. Print each clip's start,
+  end and duration; shorten words or move start times until no lines overlap
+  and each sits inside its scene.
 - **Music** (synthesised, copyright-free). Upbeat: 4-chord pad, 8th-note arpeggio,
   kick (pitch-drop sine) and hats (band-passed noise). Dark or cinematic: detuned
   minor pad through a low-pass, sub-bass heartbeat pulse, faint high shimmer ticks
@@ -256,7 +305,9 @@ ffmpeg -i video.mp4 -i soundtrack.wav -map 0:v -map 1:a \
 
 Working audio scripts: `references/examples/handdrawn-mix.py` (music bed, SFX and
 narration synced to a 30 s film), `references/examples/mix10.py` (dark cinematic bed
-for a 10 s data piece), and the two `vo.py` narration generators.
+for a 10 s data piece), and the two `vo.py` narration generators (English via
+Kokoro; for Indonesian, swap the loader for the Piper block in the routing
+snippet above).
 
 ## 9. Honesty and brand rules
 
