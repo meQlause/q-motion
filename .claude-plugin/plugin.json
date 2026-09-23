@@ -1,0 +1,16 @@
+{
+  "name": "q-motion",
+  "version": "0.1.0",
+  "description": "Build short animated launch, explainer and data-story videos entirely in code. Every frame is a pure function of time, so the whole film stays coherent by construction — no AI image or video generation. Hand-drawn sketch or glowing-glass-on-dark style, with synthesised music, sound design and voiceover, rendered to MP4 through ffmpeg.",
+  "keywords": [
+    "video",
+    "animation",
+    "canvas",
+    "motion-graphics",
+    "explainer",
+    "ffmpeg",
+    "data-story"
+  ],
+  "license": "MIT",
+  "skills": "./skills/"
+}
