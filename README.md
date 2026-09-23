@@ -2,8 +2,9 @@
 
 A Claude Code plugin for building short animated videos **entirely in code**.
 
-Write a markdown spec. Get an MP4 — hand-drawn or glowing glass, with synthesised
-score, sound design and narration.
+Write a markdown spec. Get an MP4 in a style you supply — a reference image,
+a brand kit, or an agreed treatment — with synthesised score, sound design
+and narration.
 
 ```
 /q-motion:generate launch-video.md
@@ -36,9 +37,10 @@ model invented them.
 | Node | `npm i @napi-rs/canvas roughjs` |
 | Python | `pip install fonttools kokoro-onnx soundfile scipy numpy` |
 
-`roughjs` is only needed for the hand-drawn style; the Python audio stack only if
-you want music, sound design or narration. Check all three before planning a long
-render — finding out after 1800 frames is an avoidable afternoon.
+`roughjs` is only needed when the agreed style uses sketched or wobbling
+strokes; the Python audio stack only if you want music, sound design or
+narration. Check all three before planning a long render — finding out
+after 1800 frames is an avoidable afternoon.
 
 ## The spec
 
@@ -49,17 +51,24 @@ line per scene.
 Settle it before writing code. Re-rendering is cheap; re-recording a narration
 track to fit a scene you already built is not.
 
-## Two styles
+## Style comes from you
 
-**Hand-drawn.** Roughjs strokes that re-wobble twelve times a second, text that
-jitters ±1 px, lines that draw themselves on, a sprite hero assembled pixel by
-pixel. Randomness is a hash of a string id, never `Math.random` — so the wobble
-is identical on every re-render.
+There are no template looks in this plugin. Every video is anchored by
+something you supply — a reference still, a brand kit, an existing motion
+piece you want matched, or a treatment you describe and pick from three
+options the skill proposes back.
 
-**Glowing glass on dark.** Near-black green, large soft radial lights, translucent
-bars with a green outer glow and a bright rim, a diagonal light sweep, numbers
-that count up as the bar grows. Encoded with `aq-mode=3` to stop the dark
-gradients banding.
+The skill's job is to translate that anchor into the drawing primitives
+listed in `skills/generate/SKILL.md` §4 (deterministic-hash wobble,
+boiled strokes, gradient recipes, light sweeps, sprite grids, value-driven
+bars, dark-gradient encode) — pulling only the pieces the chosen look
+actually needs.
+
+The `references/examples/` folder holds two working scripts that use
+different subsets of those primitives — `handdrawn-film.mjs` (world
+canvas, sprite hero, boiled strokes) and `glow.mjs` (glass bars,
+light sweep, dark encode). Read them as patterns, not as styles to
+pick from.
 
 ## What ships
 

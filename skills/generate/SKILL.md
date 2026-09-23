@@ -1,6 +1,6 @@
 ---
 name: generate
-description: Build a short animated launch, explainer or data-story MP4 entirely in code — hand-drawn or glowing-glass style — from a markdown video spec, with sourced stats, voiceover, music and sound effects. No AI image or video generation; every frame is a pure function of time. Use for "make a launch video", "animate this data", "q-motion generate spec.md", or turning a storyboard into an MP4.
+description: Build a short animated launch, explainer or data-story MP4 entirely in code, in a style the user brings (a reference image, brand kit, or agreed treatment), with sourced stats, voiceover, music and sound effects. Walks a three-step intake — narration versions first, then style anchor, then output size — before any code. No AI image or video generation; every frame is a pure function of time. Use for "make a launch video", "animate this data", "q-motion generate spec.md", or turning a storyboard into an MP4.
 ---
 
 # Code-animated video
@@ -11,25 +11,108 @@ No AI image or video generation.
 
 ---
 
-## 0. The spec
+## 0. Intake — three decisions, in order
 
-If the user named a markdown file, **read it first** — it is the brief. See
-`references/spec-template.md` for the format and write one with the user if they
-have no spec yet.
+If the user handed you a completed markdown spec, **read it first** — it is
+the brief and it settles most of this section. If they did not, walk the
+three decisions below in order before any code or storyboard exists. Each
+answer narrows the next.
 
-Ask only for what the spec does not already settle:
+See `references/spec-template.md` for the format the answers eventually
+populate.
 
-- Topic or product, one-line message
-- The numbers to show, each with a source (or the user's own images or data).
-  Label customer or third-party claims as such
-- Style: hand-drawn sketch, glowing glass on dark (§4b), or a reference image to match
-- Brand: colours (hex), fonts (licensed files, or open substitutes), logo files the user owns
-- Hero character, if any (the user's own, or an original one; never a third-party mascot or logo)
-- Length, aspect ratio (default 16:9, 1920x1080, 30 fps), target file size
-- Voice: gender/accent, or no narration
+### 0.1 Narration — write it before you time it
 
-Confirm the storyboard table before writing any code. Re-rendering is cheap;
-re-recording a narration track to fit a scene you have already built is not.
+Ask the user for the message: product, topic, feeling, punchline. Do **not**
+ask for length, scene count or aspect ratio yet — those are downstream of
+the narration.
+
+Draft **three complete narration versions** as plain paragraphs. Each is
+one continuous piece of copy a voiceover would read start to finish. **No
+timestamps, no scene labels, no `[music swells]` cues** — just the words.
+Vary the angle across the three:
+
+1. **Product-first** — what it is, what it does, why it matters.
+2. **User-first** — the moment before, the moment after; the feeling the
+   product resolves.
+3. **Data-first** — a number the user cares about, and how the product
+   changes it. Skip this variant only when the user has no sourced numbers
+   to name.
+
+Print all three side by side; the user picks one, or asks for a fourth in
+the same shape. Do not proceed until one is chosen. Save the chosen text
+— it is the ground truth every later scene time is derived from.
+
+### 0.2 Style — the user brings it
+
+There are no default styles in this skill. Every video's look is anchored
+by something the user supplies, not by a template picked for them.
+
+Ask, in this order:
+
+1. **"Do you have a style reference — a still, a screengrab of a video
+   you like, a brand kit, an existing motion piece?"** If yes, ask them
+   to paste it or point at the file. That reference is the style anchor:
+   palette, stroke, texture, motion feel, type choice all come from it.
+2. **"And do you have any keyframe references — specific pictures you
+   want the video to hit at specific moments?"** Ask separately from the
+   style question because the answers are different: the style reference
+   is a *feel* that runs through every frame; a keyframe reference is a
+   *specific shot* the animation lands on. Typical keyframes: the intro
+   card, the money shot (the moment the product or number is fully
+   revealed), the end card. If they have any, ask them to point at each
+   file and label roughly when it should land ("this is the end card",
+   "this is what it looks like at 2 seconds when the counter finishes").
+   Treat those pictures as fixed targets — the animation is designed to
+   arrive at them, not to reinvent them.
+3. If no style reference, ask them to describe the feel in a few words
+   — the words a designer would use ("warm and editorial", "clean and
+   futuristic", "print poster", "80s CRT", "watercolour", "isometric").
+   Then propose two or three distinct treatments in plain description
+   (palette, typography, motion vocabulary, one sentence each) and let
+   them pick one, ask for a fourth, or hand you a reference after
+   seeing the options.
+4. Only once the treatment (and any keyframe pictures) are agreed,
+   translate them into the drawing primitives §3 will use (canvas
+   commands, gradient recipes, roughjs settings if a sketchy look was
+   chosen, deterministic-hash wobble if any). Keyframe references
+   become fixed frames the storyboard is planned around: `panel(name,
+   x, y, t0, t1, draw)` calls at those specific moments draw toward
+   the target picture.
+
+Never assume the palette. Never assume roughjs. Never assume dark. The
+style is a decision, made explicitly with the user, recorded in the spec
+before any drawing code exists.
+
+### 0.3 Size — phone or desktop
+
+One plain question, once:
+
+> **Where will this play — phone (portrait, 1080×1920 at 9:16) or desktop
+> (landscape, 1920×1080 at 16:9)?**
+
+Both are 30 fps by default. If the user answers "both", pick the primary
+placement now and note that the other is a re-render pass at the end.
+"Make it responsive" is not free — title placement, chart aspect and hero
+pose all differ between the two aspect ratios.
+
+### 0.4 Everything else the spec still needs
+
+With narration, style and size settled, ask only for what is still open:
+
+- The numbers the narration names, **each with a source** (or the user's
+  data). Label customer or third-party claims as such.
+- Brand: hex colours, licensed fonts (or open substitutes), logo files
+  the user owns.
+- Hero character, if any (their own, or original; never a third-party
+  mascot or logo).
+- Length — often implied by the narration read-through time; confirm the
+  target.
+- Voice — gender/accent, or no narration.
+
+Confirm the storyboard table before writing any code. Re-rendering is
+cheap; re-recording a narration track to fit a scene you have already
+built is not.
 
 ## 1. Plan before code
 
@@ -42,7 +125,7 @@ re-recording a narration track to fit a scene you have already built is not.
 ## 2. Stack and setup
 
 ```
-npm i @napi-rs/canvas roughjs          # canvas drawing + sketchy lines (roughjs only for hand-drawn)
+npm i @napi-rs/canvas roughjs          # canvas drawing; roughjs only if the chosen treatment uses sketched or wobbling strokes
 pip install fonttools kokoro-onnx soundfile scipy numpy
 ```
 
@@ -76,31 +159,46 @@ finding out after building 1800 frames is an avoidable afternoon.
 See `references/examples/handdrawn-film.mjs` for the full world-canvas pattern and
 `references/examples/glow.mjs` for the simpler two-scene one.
 
-## 4a. Hand-drawn style
+## 4. Style implementation — techniques that survive any look
 
-- Deterministic randomness: FNV hash of a string id; **never `Math.random`**
-- Boil: roughjs `seed = hash(id) + floor(t*12) * 7919`, so lines re-wobble 12 times a second
-- Text jitters ±1 px per boil step; reveal left to right with a growing clip rect
-- Draw-on lines: take the first `p` fraction of a point list and pass it to `rc.curve`
-- Sprite hero: a letter grid (e.g. 14x13) mapped to colours; time rules for blink,
-  run cycle, scarf flutter; stick arms as rough lines at pose angles; pixel assembly
-  with per-pixel delay and back easing
+The style itself came from §0.2 (a reference, or a treatment the user
+picked). This section names the reusable building blocks, not a look:
+pull only the ones the chosen style calls for.
 
-## 4b. Glowing glass on dark style
+- **Deterministic randomness.** FNV-1a hash of a string id; **never
+  `Math.random`**. Wobble, jitter, sprite scatter, dust drift — anything
+  "random" is `hash(id, floor(t * k))` so the same frame renders the
+  same bytes every time. Required for any organic feel; irrelevant to a
+  strictly geometric one.
+- **Boil / re-wobble.** For sketched or painted looks, reseed the stroke
+  library 12 times a second (`seed = hash(id) + floor(t * 12) * 7919`)
+  so lines shimmer.
+- **Text reveal.** Left-to-right with a growing clip rect, plus optional
+  ±1 px jitter for sketch styles; simple opacity or letter-spacing tighten
+  for clean styles.
+- **Draw-on lines.** Take the first `p` fraction of a point list and
+  pass to the stroke primitive of choice.
+- **Depth on flat surfaces.** Radial gradients for lights, vertical
+  gradients for glass or metal, `shadowBlur` for glow, a bright 1–2 px
+  rim for edges, a faded reflection under the object for a floor.
+- **Light sweep.** A diagonal white-gradient band clipped to the shape,
+  moving across over roughly 0.8–1.0 s.
+- **Sprite hero.** A letter grid (e.g. 14×13) mapped to colours; time
+  rules for blink, walk cycle, cloth flutter; stick limbs as strokes at
+  pose angles; per-pixel assembly with delay and back-ease.
+- **Value-driven bars.** Height proportional to the real number; grow
+  with ease-out-quint, staggered ~0.2 s; count the value up in step
+  with the bar.
+- **Dark-gradient banding.** Whenever the chosen palette leans very dark
+  with soft radial lights, add `-x264-params aq-mode=3` to the encode
+  in §7. Cheap insurance against posterisation.
 
-- Background: near-black green (`#010805`) plus large soft radial gradients
-  (top-left and top-right light), a floor glow, a vignette, a few slow drifting dust dots
-- Glass bar: rounded-top path; vertical gradient light mint (top) to mid green to
-  dark translucent (bottom); `shadowBlur` about 46 in green for the outer glow;
-  left-edge white and right-edge dark horizontal gradient for depth; 2 px bright rim;
-  a glowing baseline strip; a faded reflection below the floor line
-- Light sweep: a diagonal white gradient band clipped to the bar, moving across over about 0.9 s
-- Text: bold geometric sans (DM Sans Bold). Big numbers with a vertical gradient fill
-  and a soft green shadow glow. Numbers on bright bars use white to pale mint for
-  contrast. Letter-spaced captions whose spacing tightens as they fade in
-- Motion: bars grow with ease-out-quint, staggered about 0.2 s; values count up with
-  the bar; bar height proportional to the real value
-- Encode with `-x264-params aq-mode=3` to limit banding in dark gradients
+The `references/examples/` folder holds two working scripts that use
+different subsets of these techniques — read them for how the pieces
+compose, not as prescriptions:
+
+- `handdrawn-film.mjs` — world-canvas panels, camera keyframes, sprite hero, boiled strokes
+- `glow.mjs` — two-scene crossfade, glass bars, light sweep, dark-gradient encode
 
 ## 5. Common motion math
 
