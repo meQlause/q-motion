@@ -34,12 +34,12 @@
 
 | # | Scene | t0 → t1 | Lead | Words (lands on) | Picture | Sound |
 |---|---|---|---|---|---|---|
-| 1 | Write | 0 → 3.0 | picture | "say" | caret blinks, types a 4-line `launch.md` spec | muted key clicks follow the typing; air swoosh as lines slide out left; felt thump as the frame lands |
-| 2 | Render | 3.0 → 7.0 | words | "code" | caret grows into the 9:16 frame; the mini-film plays; its code slides in, a marker steps through it | soft swoosh as code slides in from the right; quiet clicks as the marker steps; swoosh as the frame shrinks |
-| 3 | frame(t) | 7.0 → 10.5 | picture | "drifts" | frame shrinks into a filmstrip; a second render slides in identical; orange scan line | soft wooden taps as cells settle; swoosh right→left for render 2; thin glass sweep with the scan line |
-| 4 | Exact / yours | 10.5 → 14.0 | picture | "exact", "yours" | one frame's square becomes a bar; counter lands on 42%; bar re-skins sketch → glass → pixel, number unchanged | thump as the bar lands; clicks slow down with the counter; tap on 42; pencil scratch, glass swipe, pixel grains per style |
-| 5 | One film | 14.0 → 17.0 | music | "one film" | bar lays down into the picture track; words and music tracks join; playhead; all three collapse into one line | swooshes pan left→right with each track; faint glass under the playhead; thump as tracks collapse; then silence |
-| 6 | End card | 17.0 → 20.0 | all | "Get the film" | line contracts into the caret and wipes on the wordmark; tagline, command, repo | swoosh as the line contracts; felt thump as the caret lands; soft air on each tagline |
+| 1 | Write | 0 → 3.0 | picture | "say" | caret blinks, types a 4-line `launch.md` spec | silent under the typing; soft swoosh + felt thump as the caret becomes the frame |
+| 2 | Render | 3.0 → 7.0 | words | "code" | caret grows into the 9:16 frame; the mini-film plays; its code slides in, a marker steps through it | soft swoosh as the frame shrinks into the strip |
+| 3 | frame(t) | 7.0 → 10.5 | picture | "drifts" | frame shrinks into a filmstrip; a second render slides in identical; orange scan line | — |
+| 4 | Exact / yours | 10.5 → 14.0 | picture | "exact", "yours" | one frame's square becomes a bar; counter lands on 42%; bar re-skins sketch → glass → pixel, number unchanged | felt thump as the bar lands |
+| 5 | One film | 14.0 → 17.0 | music | "one film" | bar lays down into the picture track; words and music tracks join; playhead; all three collapse into one line | swoosh as the bar lays down; thump as tracks collapse; then silence |
+| 6 | End card | 17.0 → 20.0 | all | "Get the film" | line contracts into the caret and wipes on the wordmark; tagline, command, repo | swoosh as the line contracts; felt thump as the caret lands |
 
 ## Transitions
 
@@ -64,14 +64,13 @@
 
 ## Sound
 
-No music. Narration plus sound design only.
+No music. The narration leads; effects mark only the big moments.
 
 | | |
 |---|---|
-| Palette | muted key clicks, airy swooshes, felt thumps, soft wooden taps, a pencil scratch, a thin glass swipe — nothing bright or bell-like |
-| Placement | every effect is tied to a moving element and panned with its direction; one small shared room reverb |
+| Effects | 8 in total — a soft air swoosh or felt thump on each scene change and on the end card |
 | Breath | 16.7 → 17.0 s is silent before the end card |
-| Mix | effects sit about 3 dB under the voice peak; −14 LUFS integrated |
+| Mix | effects peak about 8 dB under the voice; −14 LUFS integrated |
 
 ## Build
 
