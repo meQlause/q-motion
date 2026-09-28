@@ -75,11 +75,34 @@ canvas, sprite hero, boiled strokes) and `glow.mjs` (glass bars,
 light sweep, dark encode). Read them as patterns, not as styles to
 pick from.
 
+## The team
+
+The skill hands each craft to a specialist agent:
+
+| Agent | Role |
+|---|---|
+| `narration-writer` | Senior scriptwriter. Plain spoken language a non-native listener follows on first hearing; no marketing or AI-slop phrasing; lines sized to scenes and written for the TTS engine. |
+| `motion-director` | Senior motion designer. Designs every transition around a **carrier** that survives the cut, so the film is one continuous piece instead of slides; fast transitions (6–12 frames), overlapping motion, velocity continuity, motion blur, and a banned list of AI-slop visuals. Reviews contact sheets and boundary strips. |
+| `music-composer` | Senior composer for picture. Tempo fitted to the cuts, risers, gaps and downbeats on the transitions, a motif that resolves on the end card, palette derived from the visual style — no tinkly piano or stock corporate loop. Owns the mix. |
+
+They make **one film, not three tracks**. All three work on a single shared
+beat sheet (`references/beat-sheet.md`): a list of moments, each saying what
+the words, the picture and the music do and which one leads. Five rules keep
+them coherent — one lead per beat, one shared energy curve, carriers that
+cross each cut in more than one craft, pauses that line up, and one motif
+(a shape, a phrase, a melody) stated together at the hook and resolved
+together on the end card.
+
+Order: **words → picture → sound → coherence pass**, then a sync check after
+the render that measures every beat against the real cut, word and hit.
+
 ## What ships
 
 ```
+agents/                        narration-writer, motion-director, music-composer
 skills/generate/SKILL.md       the method: plan, architecture, motion math, QA, render, audio
 references/spec-template.md    the video spec format
+references/beat-sheet.md       the shared timeline the three agents work on
 references/examples/
   handdrawn-film.mjs           a full 30 s film — world canvas, camera keyframes, sprite hero
   glow.mjs                     a 10 s data piece — the simpler two-scene crossfade

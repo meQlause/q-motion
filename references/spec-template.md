@@ -48,14 +48,58 @@ Every figure that appears on screen, with where it came from.
 | 3 | ... | | | | | |
 | n | End card | 57 → 60 | url fades up | — | pull back | bell |
 
+## Beats
+
+The shared timeline all three agents work on — the readable mirror of
+`beats.json` (format and rules in `references/beat-sheet.md`).
+
+| | |
+|---|---|
+| Idea | <the unifying visual idea> |
+| Motif | picture: <shape> · words: <phrase> · music: <3–5 notes> |
+| Energy | 0 s: 2 · 5 s: 3 · 11 s: 5 · 14 s: 3 · 27 s: 2 |
+
+| Beat | t | Kind | Lead | Words | Picture | Sound | Carrier |
+|---|---|---|---|---|---|---|---|
+| hook | 0.00 | start | picture | (silent) | ink dot lands | felt note, motif 1 | — |
+| title | 2.46 | cut | words | lands on "page" | dot becomes title's full stop | riser ends on cut | dot · held note |
+| reveal-42 | 11.77 | accent | picture | silent 0.6 s | push into bar, 42% lands | one-beat gap, downbeat | — |
+| button | 29.97 | button | music | motif phrase returns | dot completes the page | motif resolves | — |
+
+## Transitions
+
+Designed by the motion director. One row per boundary; every row names a
+carrier — the thing that survives the cut.
+
+| Boundary | Cut time | Carrier | Technique | Frames | Direction | Sound hook |
+|---|---|---|---|---|---|---|
+| 1 → 2 | 2.40 | logo dot | shape match → first chart point | 9 | down-right, decelerating | riser ends on cut |
+| 2 → 3 | 5.00 | accent colour | colour carry → new background | 8 | — | downbeat change |
+
 ## Narration
 
-One line per scene, with the scene it must sit inside.
+Written by the narration writer. One line per scene, with the scene it must
+sit inside and the word the picture lands on.
 
-| Scene | Line |
+| Scene | Line | Lands on |
+|---|---|---|
+| 1 | <spoken text> | <key word> |
+| 2 | <spoken text> | <key word> |
+
+## Music
+
+Written by the music composer after the transitions are fixed.
+
+| | |
 |---|---|
-| 1 | <spoken text> |
-| 2 | <spoken text> |
+| Tempo | <bpm>, fitted to the cut times |
+| Key / mode | <e.g. D Dorian> |
+| Palette | <derived from the visual style> |
+| Motif | <3–5 notes> |
+
+| Time | Bar.beat | Music event | Picture event |
+|---|---|---|---|
+| 2.40 | 2.1 | riser ends, motif enters | logo dot becomes chart point |
 
 ## Out of scope
 
@@ -70,6 +114,18 @@ One line per scene, with the scene it must sit inside.
 end, or one character walks through each section, or one bar chart rebuilds
 itself four times. Without it, a sequence of nice scenes still feels like a
 slideshow.
+
+**One film, not three tracks.** Words, picture and music share one beat
+sheet: one lead per beat, one energy curve, breaths that line up, and one
+motif stated at the hook and resolved on the end card in all three.
+
+**Every boundary has a carrier.** Something on screen survives each cut and
+becomes part of the next scene. A fade to empty, then a new scene from zero,
+is a slide change — redesign it.
+
+**Plain words.** Short sentences, one idea each, common words, no marketing
+filler — the narration should be understood on first listen by a
+non-native speaker.
 
 **Every number has a source column.** If a figure has no source, it does not go
 on screen. If what a metric measures is unknown, the narration must not name it.
