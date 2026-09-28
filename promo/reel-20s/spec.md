@@ -29,17 +29,17 @@
 | | |
 |---|---|
 | Idea | the orange caret is the whole film: it writes the spec, becomes the video frame, the square in every frame, the bar, the timeline, and the caret after the wordmark |
-| Motif | picture: orange caret · words: "Q-motion" · music: D5 F#5 A5 E5 (open) → D5 F#5 A5 D6 (resolved) |
+| Motif | picture: orange caret · words: "Q-motion" · music (synth lead): D5 F#5 A5 E5 (open) → D5 F#5 A5 D6 (resolved) |
 | Energy | 0 s: 2 · 3 s: 3 · 7 s: 3 · 10.5 s: 4 · 14 s: 5 · 16.5 s: 0 · 17 s: 2 |
 
 | # | Scene | t0 → t1 | Lead | Words (lands on) | Picture | Sound |
 |---|---|---|---|---|---|---|
-| 1 | Write | 0 → 3.0 | picture | "say" | caret blinks, types a 4-line `launch.md` spec | motif (open), typing ticks, riser |
-| 2 | Render | 3.0 → 7.0 | words | "code" | caret grows into the 9:16 frame; the mini-film plays; its code slides in, a marker steps through it | hit on cut, kick + D bass |
-| 3 | frame(t) | 7.0 → 10.5 | picture | "drifts" | frame shrinks into a filmstrip; a second render slides in identical; orange scan line | Bm, hats, whoosh on scan |
-| 4 | Exact / yours | 10.5 → 14.0 | picture | "exact", "yours" | one frame's square becomes a bar; counter lands on 42%; bar re-skins sketch → glass → pixel, number unchanged | counter ticks, bell on 42, a pluck per style |
-| 5 | One film | 14.0 → 17.0 | music | "one film" | bar lays down into the picture track; words and music tracks join; playhead; all three collapse into one line | A, full groove, then 0.5 s of silence |
-| 6 | End card | 17.0 → 20.0 | all | "Get the film" | line contracts into the caret and wipes on the wordmark; tagline, command, repo | motif resolves on D, rings out |
+| 1 | Write | 0 → 3.0 | picture | "say" | caret blinks, types a 4-line `launch.md` spec | lead states motif (open), filtered pad opens, typing ticks, riser |
+| 2 | Render | 3.0 → 7.0 | words | "code" | caret grows into the 9:16 frame; the mini-film plays; its code slides in, a marker steps through it | impact on cut, four-on-the-floor, off-beat saw bass |
+| 3 | frame(t) | 7.0 → 10.5 | picture | "drifts" | frame shrinks into a filmstrip; a second render slides in identical; orange scan line | Bm, 16th arp enters, claps, whoosh on scan |
+| 4 | Exact / yours | 10.5 → 14.0 | picture | "exact", "yours" | one frame's square becomes a bar; counter lands on 42%; bar re-skins sketch → glass → pixel, number unchanged | zaps climb with the counter, supersaw stab on 42, a stab per style, riser |
+| 5 | One film | 14.0 → 17.0 | music | "one film" | bar lays down into the picture track; words and music tracks join; playhead; all three collapse into one line | the drop: A, off-beat stabs, 16th hats, open arp; then 0.5 s of silence |
+| 6 | End card | 17.0 → 20.0 | all | "Get the film" | line contracts into the caret and wipes on the wordmark; tagline, command, repo | impact, lead resolves the motif on D, pad filter closes as it rings out |
 
 ## Transitions
 
@@ -68,7 +68,7 @@
 |---|---|
 | Tempo | 120 bpm — every cut lands on a beat (0 frames off-grid) |
 | Key | D major: D → Bm → G → A → D |
-| Palette | triangle/square plucks, sub kick, tick hats echoing the typing, one filtered pad |
+| Style | electronic: four-on-the-floor kick with sidechain pump, detuned saw bass, supersaw chords and stabs, filtered 16th arp, claps, noise risers; lead with glide, dotted-8th delay and reverb. No piano, plucks or bells |
 | Mix | voice ducked 5 dB with 1–4 kHz carve; −14 LUFS integrated |
 
 ## Build
