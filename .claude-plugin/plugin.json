@@ -1,7 +1,7 @@
 {
   "name": "q-motion",
-  "version": "0.2.0",
-  "description": "Build short animated launch, explainer and data-story videos entirely in code. Every frame is a pure function of time, so the whole film stays coherent by construction — no AI image or video generation. Style comes from a reference you supply. Specialist agents handle plain-language narration, continuous carrier-driven transitions, and music scored to the cuts, rendered to MP4 through ffmpeg.",
+  "version": "0.3.0",
+  "description": "Build short animated launch, explainer and data-story videos entirely in code. Every frame is a pure function of time, so the whole film stays coherent by construction — no AI image or video generation. Style comes from a reference you supply. Specialist agents handle plain-language narration, continuous carrier-driven transitions, and restrained sound design that lets the narration lead (no music), rendered to MP4 through ffmpeg.",
   "keywords": [
     "video",
     "animation",

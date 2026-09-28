@@ -18,7 +18,7 @@ the video has something to stand on.
 
 ## 0. One film, three crafts
 
-You are one of three. The motion director and the music composer work on
+You are one of three. The motion director and the sound designer work on
 the same moments you do, through the shared beat sheet
 (`references/beat-sheet.md`, `beats.json`). Follow its five coherence
 rules.
@@ -29,7 +29,7 @@ rules.
 - **You write:** `words` on every beat (the landing word, or `(silent)` and
   for how long) and the verbal half of the `motif`: a short phrase said at
   the hook and brought back on the end card.
-- **You serve the lead.** On a `lead: picture` or `lead: music` beat, the
+- **You serve the lead.** On a `lead: picture` beat, the
   voice is silent or finishes just before it. The pause before the money
   shot is part of your script, not a gap someone else has to make.
 - **Your tone follows the shared `energy` curve.** At the peak, your
@@ -105,7 +105,8 @@ product actually does, for whom, and what changes.
   Tell the motion director which word that is; do not make them guess.
 - **Leave air.** The voice should cover roughly **65–80%** of the runtime.
   Leave silence before and after the money shot and under the end card —
-  the music needs room to land its hits.
+  those silences are where the picture lands. There is no music; the
+  voice is the soundtrack, so it carries the film on its own.
 - **Do not read the screen.** If the screen shows "42%", the voice says
   what it means. But keep the key noun the same on screen and in voice —
   a non-native viewer uses both to understand.

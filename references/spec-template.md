@@ -43,10 +43,10 @@ Every figure that appears on screen, with where it came from.
 
 | # | Scene | t0 → t1 | What moves | Stat | Camera | Sound |
 |---|---|---|---|---|---|---|
-| 1 | Hook | 0 → 2.5 | logo assembles from pixels | — | push in | riser + hit |
-| 2 | Title | 2.5 → 5 | title draws on left to right | — | hold | whoosh |
+| 1 | Hook | 0 → 2.5 | logo assembles from pixels | — | push in | — |
+| 2 | Title | 2.5 → 5 | title draws on left to right | — | hold | nib on paper as the full stop lands |
 | 3 | ... | | | | | |
-| n | End card | 57 → 60 | url fades up | — | pull back | bell |
+| n | End card | 57 → 60 | url fades up | — | pull back | book closing as the page settles |
 
 ## Beats
 
@@ -56,25 +56,25 @@ The shared timeline all three agents work on — the readable mirror of
 | | |
 |---|---|
 | Idea | <the unifying visual idea> |
-| Motif | picture: <shape> · words: <phrase> · music: <3–5 notes> |
+| Motif | picture: <shape> · words: <phrase> |
 | Energy | 0 s: 2 · 5 s: 3 · 11 s: 5 · 14 s: 3 · 27 s: 2 |
 
 | Beat | t | Kind | Lead | Words | Picture | Sound | Carrier |
 |---|---|---|---|---|---|---|---|
-| hook | 0.00 | start | picture | (silent) | ink dot lands | felt note, motif 1 | — |
-| title | 2.46 | cut | words | lands on "page" | dot becomes title's full stop | riser ends on cut | dot · held note |
-| reveal-42 | 11.77 | accent | picture | silent 0.6 s | push into bar, 42% lands | one-beat gap, downbeat | — |
-| button | 29.97 | button | music | motif phrase returns | dot completes the page | motif resolves | — |
+| hook | 0.00 | start | picture | (silent) | ink dot lands | (silent) | — |
+| title | 2.46 | cut | words | lands on "page" | dot becomes title's full stop | (silent) | dot · "page" |
+| reveal-42 | 11.77 | accent | picture | silent 0.6 s | push into bar, 42% lands | nib touching paper | — |
+| button | 29.97 | button | words | motif phrase returns | dot completes the page | book closing | — |
 
 ## Transitions
 
 Designed by the motion director. One row per boundary; every row names a
 carrier — the thing that survives the cut.
 
-| Boundary | Cut time | Carrier | Technique | Frames | Direction | Sound hook |
+| Boundary | Cut time | Carrier | Technique | Frames | Direction | Landing sound? |
 |---|---|---|---|---|---|---|
-| 1 → 2 | 2.40 | logo dot | shape match → first chart point | 9 | down-right, decelerating | riser ends on cut |
-| 2 → 3 | 5.00 | accent colour | colour carry → new background | 8 | — | downbeat change |
+| 1 → 2 | 2.40 | logo dot | shape match → first chart point | 9 | down-right, decelerating | candidate — dot lands at 2.62 |
+| 2 → 3 | 5.00 | accent colour | colour carry → new background | 8 | — | no — nothing lands |
 
 ## Narration
 
@@ -86,20 +86,19 @@ sit inside and the word the picture lands on.
 | 1 | <spoken text> | <key word> |
 | 2 | <spoken text> | <key word> |
 
-## Music
+## Sound
 
-Written by the music composer after the transitions are fixed.
+Written by the sound designer after the transitions are fixed. No music.
+Only the big moments get a sound; everything else is silent. Rules in
+`agents/sound-designer.md`.
 
-| | |
-|---|---|
-| Tempo | <bpm>, fitted to the cut times |
-| Key / mode | <e.g. D Dorian> |
-| Palette | <derived from the visual style> |
-| Motif | <3–5 notes> |
+| Time | Picture event | Sound | Material | Why this sound |
+|---|---|---|---|---|
+| 2.62 | dot lands as the first chart point | nib touching paper | paper | the page is being written |
+| 29.97 | dot completes the page | book closing | paper + board | the story is done |
 
-| Time | Bar.beat | Music event | Picture event |
-|---|---|---|---|
-| 2.40 | 2.1 | riser ends, motif enters | logo dot becomes chart point |
+Banned: music, wind / whoosh / risers, thumps and impacts, repeated or
+reused sounds, bells and chimes.
 
 ## Out of scope
 
@@ -115,9 +114,13 @@ end, or one character walks through each section, or one bar chart rebuilds
 itself four times. Without it, a sequence of nice scenes still feels like a
 slideshow.
 
-**One film, not three tracks.** Words, picture and music share one beat
+**One film, not three tracks.** Words, picture and sound share one beat
 sheet: one lead per beat, one energy curve, breaths that line up, and one
-motif stated at the hook and resolved on the end card in all three.
+motif stated at the hook and resolved on the end card.
+
+**The narration leads the sound.** No music. A handful of short, distinct
+sounds mark only the big landings — each once, each a different material,
+about 10 dB under the voice.
 
 **Every boundary has a carrier.** Something on screen survives each cut and
 becomes part of the next scene. A fade to empty, then a new scene from zero,

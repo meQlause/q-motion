@@ -5,3 +5,8 @@ Thumbs.db
 *.wav
 *.png
 frames/
+promo/*/node_modules
+promo/*/fonts
+promo/*/models
+promo/*/stills/
+promo/*/vo.json
