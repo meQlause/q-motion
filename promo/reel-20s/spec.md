@@ -34,12 +34,12 @@
 
 | # | Scene | t0 → t1 | Lead | Words (lands on) | Picture | Sound |
 |---|---|---|---|---|---|---|
-| 1 | Write | 0 → 3.0 | picture | "say" | caret blinks, types a 4-line `launch.md` spec | silent under the typing; soft swoosh + felt thump as the caret becomes the frame |
-| 2 | Render | 3.0 → 7.0 | words | "code" | caret grows into the 9:16 frame; the mini-film plays; its code slides in, a marker steps through it | soft swoosh as the frame shrinks into the strip |
+| 1 | Write | 0 → 3.0 | picture | "say" | caret blinks, types a 4-line `launch.md` spec | felt thump as the frame lands |
+| 2 | Render | 3.0 → 7.0 | words | "code" | caret grows into the 9:16 frame; the mini-film plays; its code slides in, a marker steps through it | — |
 | 3 | frame(t) | 7.0 → 10.5 | picture | "drifts" | frame shrinks into a filmstrip; a second render slides in identical; orange scan line | — |
 | 4 | Exact / yours | 10.5 → 14.0 | picture | "exact", "yours" | one frame's square becomes a bar; counter lands on 42%; bar re-skins sketch → glass → pixel, number unchanged | felt thump as the bar lands |
-| 5 | One film | 14.0 → 17.0 | music | "one film" | bar lays down into the picture track; words and music tracks join; playhead; all three collapse into one line | swoosh as the bar lays down; thump as tracks collapse; then silence |
-| 6 | End card | 17.0 → 20.0 | all | "Get the film" | line contracts into the caret and wipes on the wordmark; tagline, command, repo | swoosh as the line contracts; felt thump as the caret lands |
+| 5 | One film | 14.0 → 17.0 | music | "one film" | bar lays down into the picture track; words and music tracks join; playhead; all three collapse into one line | felt thump as tracks collapse; then silence |
+| 6 | End card | 17.0 → 20.0 | all | "Get the film" | line contracts into the caret and wipes on the wordmark; tagline, command, repo | felt thump as the caret lands |
 
 ## Transitions
 
@@ -68,7 +68,8 @@ No music. The narration leads; effects mark only the big moments.
 
 | | |
 |---|---|
-| Effects | 8 in total — a soft air swoosh or felt thump on each scene change and on the end card |
+| Effects | 4 soft felt thumps — frame lands (3.2), bar lands (10.8), tracks collapse (16.7), caret lands (17.5) |
+| Banned | wind / air / swoosh sounds, music beds |
 | Breath | 16.7 → 17.0 s is silent before the end card |
 | Mix | effects peak about 8 dB under the voice; −14 LUFS integrated |
 
