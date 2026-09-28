@@ -29,17 +29,17 @@
 | | |
 |---|---|
 | Idea | the orange caret is the whole film: it writes the spec, becomes the video frame, the square in every frame, the bar, the timeline, and the caret after the wordmark |
-| Motif | picture: orange caret · words: "Q-motion" · music (synth lead): D5 F#5 A5 E5 (open) → D5 F#5 A5 D6 (resolved) |
+| Motif | picture: orange caret · words: "Q-motion" |
 | Energy | 0 s: 2 · 3 s: 3 · 7 s: 3 · 10.5 s: 4 · 14 s: 5 · 16.5 s: 0 · 17 s: 2 |
 
 | # | Scene | t0 → t1 | Lead | Words (lands on) | Picture | Sound |
 |---|---|---|---|---|---|---|
-| 1 | Write | 0 → 3.0 | picture | "say" | caret blinks, types a 4-line `launch.md` spec | Dmaj9 fades in, lead states the motif (left open on E) |
-| 2 | Render | 3.0 → 7.0 | words | "code" | caret grows into the 9:16 frame; the mini-film plays; its code slides in, a marker steps through it | Bm9 — C#5 on top holds across the cut |
-| 3 | frame(t) | 7.0 → 10.5 | picture | "drifts" | frame shrinks into a filmstrip; a second render slides in identical; orange scan line | Gmaj7#11 — C#5 still held, strings open up |
-| 4 | Exact / yours | 10.5 → 14.0 | picture | "exact", "yours" | one frame's square becomes a bar; counter lands on 42%; bar re-skins sketch → glass → pixel, number unchanged | Em9, swell into the cut |
-| 5 | One film | 14.0 → 17.0 | music | "one film" | bar lays down into the picture track; words and music tracks join; playhead; all three collapse into one line | A13sus → A7 at 15.5, octave shimmer; then 0.5 s breath |
-| 6 | End card | 17.0 → 20.0 | all | "Get the film" | line contracts into the caret and wipes on the wordmark; tagline, command, repo | Dadd9 home, lead resolves the motif on D6, long release |
+| 1 | Write | 0 → 3.0 | picture | "say" | caret blinks, types a 4-line `launch.md` spec | muted key clicks follow the typing; air swoosh as lines slide out left; felt thump as the frame lands |
+| 2 | Render | 3.0 → 7.0 | words | "code" | caret grows into the 9:16 frame; the mini-film plays; its code slides in, a marker steps through it | soft swoosh as code slides in from the right; quiet clicks as the marker steps; swoosh as the frame shrinks |
+| 3 | frame(t) | 7.0 → 10.5 | picture | "drifts" | frame shrinks into a filmstrip; a second render slides in identical; orange scan line | soft wooden taps as cells settle; swoosh right→left for render 2; thin glass sweep with the scan line |
+| 4 | Exact / yours | 10.5 → 14.0 | picture | "exact", "yours" | one frame's square becomes a bar; counter lands on 42%; bar re-skins sketch → glass → pixel, number unchanged | thump as the bar lands; clicks slow down with the counter; tap on 42; pencil scratch, glass swipe, pixel grains per style |
+| 5 | One film | 14.0 → 17.0 | music | "one film" | bar lays down into the picture track; words and music tracks join; playhead; all three collapse into one line | swooshes pan left→right with each track; faint glass under the playhead; thump as tracks collapse; then silence |
+| 6 | End card | 17.0 → 20.0 | all | "Get the film" | line contracts into the caret and wipes on the wordmark; tagline, command, repo | swoosh as the line contracts; felt thump as the caret lands; soft air on each tagline |
 
 ## Transitions
 
@@ -62,16 +62,16 @@
 | 5 | 14.15 | Words, picture and music, made as one film. |
 | 6 | 17.35 | Q-motion. Write the spec. Get the film. |
 
-## Music
+## Sound
 
-Music and voice only — no sound effects.
+No music. Narration plus sound design only.
 
 | | |
 |---|---|
-| Style | elegant legato strings/choir: five voices gliding chord to chord (true voice leading), soft sine lead, long stereo reverb. No drums, plucks or bells |
-| Harmony | Dmaj9 → Bm9 (3) → Gmaj7#11 (7) → Em9 (10.5) → A13sus (14) → A7 (15.5) → breath (16.5) → Dadd9 (17); chords change exactly on the cuts |
-| Motif | lead: D5 F#5 A5 E5 at the hook, D5 F#5 A5 D6 on the end card |
-| Mix | swell into each cut; music ducked 4 dB under the voice with a 1.2–3.8 kHz carve; −14 LUFS integrated |
+| Palette | muted key clicks, airy swooshes, felt thumps, soft wooden taps, a pencil scratch, a thin glass swipe — nothing bright or bell-like |
+| Placement | every effect is tied to a moving element and panned with its direction; one small shared room reverb |
+| Breath | 16.7 → 17.0 s is silent before the end card |
+| Mix | effects sit about 3 dB under the voice peak; −14 LUFS integrated |
 
 ## Build
 
