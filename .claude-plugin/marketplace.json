@@ -1,7 +1,7 @@
 {
   "name": "q-motion",
   "metadata": {
-    "description": "Code-animated video. Turns a markdown video spec into a rendered MP4 — hand-drawn or glowing glass, with synthesised score, sound design and narration. Frames are pure functions of time, so nothing drifts between them."
+    "description": "Code-animated video. Turns a markdown video spec into a rendered MP4 in a style you supply. A narration writer, motion director and music composer work on one shared beat sheet, so words, continuous transitions and a score fitted to the cuts land together. Frames are pure functions of time, so nothing drifts between them."
   },
   "owner": {
     "name": "Ardial"

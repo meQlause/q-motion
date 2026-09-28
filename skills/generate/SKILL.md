@@ -22,15 +22,33 @@ their part yourself from scratch — their files hold the craft rules.
 
 | Agent | Owns | Called in |
 |---|---|---|
-| `q-motion:narration-writer` | The three narration versions, the per-scene split, the word each scene must land on | §0.1, §1 |
-| `q-motion:motion-director` | The through-line, energy curve, **transition map**, entrance/exit vocabulary, contact-sheet and boundary-strip review | §1, §6 |
-| `q-motion:music-composer` | Tempo fitted to the cuts, cue sheet, `score.py`, SFX tuned to the score, the final mix | §8 |
+| `q-motion:narration-writer` | The three narration versions, the per-scene split, the landing words, the verbal motif | §0.1, §1 |
+| `q-motion:motion-director` | The through-line, energy curve, **transition map**, entrance/exit vocabulary, the visual motif, contact-sheet and boundary-strip review | §1, §6 |
+| `q-motion:music-composer` | Tempo fitted to the cuts, cue sheet, the musical motif, `score.py`, SFX tuned to the score, the final mix | §1, §8 |
 
-Order matters: **words → picture → sound.** The narration sets the timing,
-the motion director designs the cuts around it, and the composer scores the
-cuts the motion director placed. When one of them needs a change from
-another (a cut moved two frames to land on a beat, a line shortened to fit a
-scene), route it back to the owner instead of patching it silently.
+**They make one film, not three tracks.** All three work on a single shared
+**beat sheet** (`references/beat-sheet.md` → `beats.json` in the project):
+one list of moments, each saying what the words, the picture and the sound
+do at that instant and which of the three leads it. Its five rules are what
+keep the crafts coherent:
+
+1. **One lead per beat** — the other two support it; only the money shot
+   stacks all three.
+2. **One energy curve** — voice, motion and music build and breathe together.
+3. **Carriers in more than one language** — a cut holds something in the
+   picture and, ideally, a held note or a picked-up word too.
+4. **Breaths line up** — the pause before the money shot is one silence in
+   all three.
+5. **One motif** — a shape, a phrase and a melody, stated together at the
+   hook and resolved together on the end card.
+
+Order: **words → picture → sound → coherence pass.** The narration sets the
+timing, the motion director designs the cuts around it, the composer scores
+the cuts, and then each agent reads the whole sheet and files requests for
+anything that breaks a rule. Changes to another agent's field always go
+back to that agent as a request (`REQUEST → motion-director: …`); nobody
+patches someone else's work silently. The sheet is frozen before any scene
+code is written.
 
 ---
 
@@ -167,8 +185,12 @@ built is not.
   motion direction, and the sound hook for the composer. A boundary with no
   carrier is not designed yet. A plain crossfade between unrelated scenes is
   not a transition.
-- Record both in the spec (`references/spec-template.md` has the tables)
-  and confirm them with the user alongside the storyboard.
+- **Beat sheet.** The writer's landing words and the director's cuts go
+  into `beats.json` (`references/beat-sheet.md`); the composer adds tempo
+  and sound, then all three run the coherence pass until no requests are
+  open.
+- Record it all in the spec (`references/spec-template.md` has the tables)
+  and confirm it with the user alongside the storyboard.
 
 ## 2. Stack and setup
 
@@ -371,6 +393,11 @@ ffmpeg -f rawvideo -pix_fmt rgba -s 1920x1080 -r 30 -i - \
   normalise peak to 0.89. Target about -14 LUFS for social, -16 LUFS for web
   (`ffmpeg -af ebur128`). Print every hit's distance to its cut in frames;
   anything over one frame is a bug
+- **Sync check** before the mux: for every beat in `beats.json`, compare the
+  planned time with the real cut frame, the real start of the landing word
+  and the real music hit (method in `references/beat-sheet.md` §4). Print
+  the table; any cut or accent more than one frame out, or a landing word
+  more than three frames out, goes back to its owner
 - **Mux** without re-encoding video:
 
 ```
