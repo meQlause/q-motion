@@ -75,9 +75,22 @@ canvas, sprite hero, boiled strokes) and `glow.mjs` (glass bars,
 light sweep, dark encode). Read them as patterns, not as styles to
 pick from.
 
+## The team
+
+The skill hands each craft to a specialist agent:
+
+| Agent | Role |
+|---|---|
+| `narration-writer` | Senior scriptwriter. Plain spoken language a non-native listener follows on first hearing; no marketing or AI-slop phrasing; lines sized to scenes and written for the TTS engine. |
+| `motion-director` | Senior motion designer. Designs every transition around a **carrier** that survives the cut, so the film is one continuous piece instead of slides; fast transitions (6–12 frames), overlapping motion, velocity continuity, motion blur, and a banned list of AI-slop visuals. Reviews contact sheets and boundary strips. |
+| `music-composer` | Senior composer for picture. Tempo fitted to the cuts, risers, gaps and downbeats on the transitions, a motif that resolves on the end card, palette derived from the visual style — no tinkly piano or stock corporate loop. Owns the mix. |
+
+Order: **words → picture → sound.**
+
 ## What ships
 
 ```
+agents/                        narration-writer, motion-director, music-composer
 skills/generate/SKILL.md       the method: plan, architecture, motion math, QA, render, audio
 references/spec-template.md    the video spec format
 references/examples/
