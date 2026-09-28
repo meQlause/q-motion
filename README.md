@@ -3,8 +3,8 @@
 A Claude Code plugin for building short animated videos **entirely in code**.
 
 Write a markdown spec. Get an MP4 in a style you supply — a reference image,
-a brand kit, or an agreed treatment — with synthesised score, sound design
-and narration.
+a brand kit, or an agreed treatment — with plain-spoken narration and a few
+restrained, synthesised sound effects. No music.
 
 ```
 /q-motion:generate launch-video.md
@@ -40,8 +40,8 @@ model invented them.
 | Python (Indonesian narration) | `pip install piper-tts` + `id_ID-fajri-medium` voice files |
 
 `roughjs` is only needed when the agreed style uses sketched or wobbling
-strokes; the Python audio stack only if you want music, sound design or
-narration; and only the TTS engine matching the narration language actually
+strokes; the Python audio stack only if you want narration or sound
+effects; and only the TTS engine matching the narration language actually
 picked in §0.1 — English → Kokoro, Indonesian → Piper (`facebook/mms-tts-ind`
 via `transformers` is the drop-in fallback when a female Indonesian voice
 is asked for). Check all four before planning a long render — finding out
@@ -83,14 +83,14 @@ The skill hands each craft to a specialist agent:
 |---|---|
 | `narration-writer` | Senior scriptwriter. Plain spoken language a non-native listener follows on first hearing; no marketing or AI-slop phrasing; lines sized to scenes and written for the TTS engine. |
 | `motion-director` | Senior motion designer. Designs every transition around a **carrier** that survives the cut, so the film is one continuous piece instead of slides; fast transitions (6–12 frames), overlapping motion, velocity continuity, motion blur, and a banned list of AI-slop visuals. Reviews contact sheets and boundary strips. |
-| `music-composer` | Senior composer for picture. Tempo fitted to the cuts, risers, gaps and downbeats on the transitions, a motif that resolves on the end card, palette derived from the visual style — no tinkly piano or stock corporate loop. Owns the mix. |
+| `sound-designer` | Senior sound designer. The narration leads and there is no music: only the big landings get a sound — one short, single-gesture sound each, every one a different material from the film's own subject, about 10 dB under the voice. Bans music, wind/whoosh, thumps, repeated or reused sounds, bells. Owns the mix. |
 
 They make **one film, not three tracks**. All three work on a single shared
 beat sheet (`references/beat-sheet.md`): a list of moments, each saying what
-the words, the picture and the music do and which one leads. Five rules keep
+the words, the picture and the sound do and which one leads. Five rules keep
 them coherent — one lead per beat, one shared energy curve, carriers that
 cross each cut in more than one craft, pauses that line up, and one motif
-(a shape, a phrase, a melody) stated together at the hook and resolved
+(a shape and a phrase) stated together at the hook and resolved
 together on the end card.
 
 Order: **words → picture → sound → coherence pass**, then a sync check after
@@ -99,15 +99,15 @@ the render that measures every beat against the real cut, word and hit.
 ## What ships
 
 ```
-agents/                        narration-writer, motion-director, music-composer
+agents/                        narration-writer, motion-director, sound-designer
 skills/generate/SKILL.md       the method: plan, architecture, motion math, QA, render, audio
 references/spec-template.md    the video spec format
 references/beat-sheet.md       the shared timeline the three agents work on
 references/examples/
   handdrawn-film.mjs           a full 30 s film — world canvas, camera keyframes, sprite hero
   glow.mjs                     a 10 s data piece — the simpler two-scene crossfade
-  handdrawn-mix.py             music bed, SFX and narration synced to the film's timeline
-  mix10.py                     dark cinematic bed and UI sound design
+  handdrawn-mix.py  mix10.py   older audio pipelines (pre sound rules) — read for mechanics only
+promo/reel-20s/                q-motion's own 20 s portrait promo, built with these rules
   handdrawn-vo.py  vo.py       narration generators
 ```
 

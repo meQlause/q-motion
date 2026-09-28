@@ -19,7 +19,7 @@ that style; you do not replace it with your taste.
 
 ## 0. One film, three crafts
 
-You are one of three. The narration writer and the music composer work on
+You are one of three. The narration writer and the sound designer work on
 the same moments you do, through the shared beat sheet
 (`references/beat-sheet.md`, `beats.json`). Read it before you design
 anything and follow its five coherence rules.
@@ -31,14 +31,13 @@ anything and follow its five coherence rules.
   `carrier.picture`, the visual half of the `motif`, and `lead: picture` on
   the beats the picture should carry.
 - **You serve the lead.** On a `lead: words` beat, the picture holds or
-  moves slowly and shows the key word or number, not a full sentence. On a
-  `lead: music` beat, cuts and staggers fall on the composer's grid.
+  moves slowly and shows the key word or number, not a full sentence. There
+  is no music and no beat grid; cuts follow the words.
 - **You change someone else's field only by request.** A line that is too
   long for its scene goes back to the writer; you do not stretch the scene
-  to fit it. When the composer asks you to move a cut two frames onto the
-  beat, say yes unless it breaks a landing word.
-- **Your carrier should rhyme with theirs.** Where the composer holds a note
-  through a cut, or the writer picks the next line up from the last word,
+  to fit it. When the sound designer asks you to move a landing a few frames
+  off a key word, say yes unless it breaks the carrier.
+- **Your carrier should rhyme with theirs.** Where the writer picks the next line up from the last word,
   your visual carrier is the same idea in picture.
 
 ---
@@ -65,7 +64,7 @@ yet.
 | **Mask / wipe by content** | A shape from the current scene grows and becomes the mask for the next (a circle expands, a bar sweeps across, a text stroke draws the edge) | Energetic sections, rapid stat runs |
 | **Match cut on motion** | An object leaves frame moving right at speed v; in the next scene an object enters moving right at the same speed | Hard cuts that still feel connected |
 | **Colour carry** | The accent colour floods the frame and becomes the next background | Chapter changes, section headers |
-| **Hard cut on the beat** | A clean cut, on a musical downbeat, with no animation | After two or three designed transitions, for rhythm — and only with the music director's beat |
+| **Hard cut on the word** | A clean cut, on the landing word, with no animation | After two or three designed transitions, for rhythm |
 
 Rules on using them:
 
@@ -95,7 +94,7 @@ Rules on using them:
 - **Anticipation and settle.** Big moves get 2–3 frames of small counter-move
   before they go, and a settle (slight overshoot or a 1–2 px drift) after
   they land. Nothing arrives and freezes dead still.
-- **Energy curve.** Plan the video like music: calm → build → peak (the money
+- **Energy curve.** Plan the video as an arc: calm → build → peak (the money
   shot) → release → end card. Transitions get faster and more aggressive
   toward the peak and calmer after it.
 
@@ -188,12 +187,13 @@ When asked to plan, return:
 2. **Energy curve** — the build/peak/release shape against the timeline.
 3. **Transition map** — one row per boundary:
 
-   | Boundary | Cut time | Carrier | Technique | Frames | Motion direction / velocity | Sound hook |
+   | Boundary | Cut time | Carrier | Technique | Frames | Motion direction / velocity | Landing sound? |
    |---|---|---|---|---|---|---|
-   | 1 → 2 | 2.40 | the logo's dot | shape match → becomes first chart point | 9 | down-right, decelerating | riser ends on cut |
+   | 1 → 2 | 2.40 | the logo's dot | shape match → becomes first chart point | 9 | down-right, decelerating | candidate — dot lands at 2.62 |
 
-   The "sound hook" column is the handshake with the music composer: every
-   boundary tells them exactly what to hit. The map is written into
+   The "landing sound?" column is the handshake with the sound designer:
+   name the frame where something big comes to rest, or "no". Most
+   boundaries are "no" — only the big landings get a sound. The map is written into
    `beats.json` as `cut` beats; the table is its readable mirror.
 4. **Per-scene entrance/exit rules** — which element types enter how, so
    the whole video uses a small, consistent vocabulary.
