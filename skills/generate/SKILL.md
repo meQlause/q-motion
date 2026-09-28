@@ -1,6 +1,6 @@
 ---
 name: generate
-description: Build a short animated launch, explainer or data-story MP4 entirely in code, in a style the user brings (a reference image, brand kit, or agreed treatment), with sourced stats, voiceover, music and sound effects. Walks a three-step intake — narration versions first, then style anchor, then output size — before any code. No AI image or video generation; every frame is a pure function of time. Use for "make a launch video", "animate this data", "q-motion generate spec.md", or turning a storyboard into an MP4.
+description: Build a short animated launch, explainer or data-story MP4 entirely in code, in a style the user brings (a reference image, brand kit, or agreed treatment), with sourced stats, a narration that leads, and a few restrained sound effects (no music). Walks a three-step intake — narration versions first, then style anchor, then output size — before any code. No AI image or video generation; every frame is a pure function of time. Use for "make a launch video", "animate this data", "q-motion generate spec.md", or turning a storyboard into an MP4.
 ---
 
 # Code-animated video
@@ -10,8 +10,9 @@ Build the video as a program: one scene description plus a clock. Every frame is
 No AI image or video generation.
 
 The goal is a piece that feels **designed and continuous**: one line of motion
-that changes shape, scored to the cut and narrated in plain words. Not a
-slideshow with fades, not a stock-music loop, not an ad-copy voiceover.
+that changes shape, narrated in plain words, with sound only where
+something big lands. Not a slideshow with fades, not a music bed, not an
+ad-copy voiceover.
 
 ## The team
 
@@ -24,7 +25,7 @@ their part yourself from scratch — their files hold the craft rules.
 |---|---|---|
 | `q-motion:narration-writer` | The three narration versions, the per-scene split, the landing words, the verbal motif | §0.1, §1 |
 | `q-motion:motion-director` | The through-line, energy curve, **transition map**, entrance/exit vocabulary, the visual motif, contact-sheet and boundary-strip review | §1, §6 |
-| `q-motion:music-composer` | Tempo fitted to the cuts, cue sheet, the musical motif, `score.py`, SFX tuned to the score, the final mix | §1, §8 |
+| `q-motion:sound-designer` | Which few moments get a sound, one distinct single-gesture sound for each, `mix.py`, the final mix — under the sound rules in §8 | §1, §8 |
 
 **They make one film, not three tracks.** All three work on a single shared
 **beat sheet** (`references/beat-sheet.md` → `beats.json` in the project):
@@ -34,18 +35,19 @@ keep the crafts coherent:
 
 1. **One lead per beat** — the other two support it; only the money shot
    stacks all three.
-2. **One energy curve** — voice, motion and music build and breathe together.
+2. **One energy curve** — voice and motion build and breathe together; sound
+   marks only the peaks.
 3. **Carriers in more than one language** — a cut holds something in the
-   picture and, ideally, a held note or a picked-up word too.
+   picture and, ideally, a picked-up word too.
 4. **Breaths line up** — the pause before the money shot is one silence in
    all three.
-5. **One motif** — a shape, a phrase and a melody, stated together at the
-   hook and resolved together on the end card.
+5. **One motif** — a shape and a phrase, stated together at the hook and
+   resolved together on the end card.
 
 Order: **words → picture → sound → coherence pass.** The narration sets the
-timing, the motion director designs the cuts around it, the composer scores
-the cuts, and then each agent reads the whole sheet and files requests for
-anything that breaks a rule. Changes to another agent's field always go
+timing, the motion director designs the cuts around it, the sound
+designer marks the few moments that get a sound, and then each agent reads
+the whole sheet and files requests for anything that breaks a rule. Changes to another agent's field always go
 back to that agent as a request (`REQUEST → motion-director: …`); nobody
 patches someone else's work silently. The sheet is frozen before any scene
 code is written.
@@ -181,14 +183,14 @@ built is not.
   boundary before any drawing code: the **carrier** (what survives the cut
   and becomes part of the next scene), the technique (shape match,
   element hand-off, camera through, continuous pan, content mask, match cut,
-  colour carry, hard cut on the beat), its length in frames (6–12 at 30 fps),
-  motion direction, and the sound hook for the composer. A boundary with no
-  carrier is not designed yet. A plain crossfade between unrelated scenes is
+  colour carry, hard cut), its length in frames (6–12 at 30 fps),
+  motion direction, and whether its landing is a sound candidate. A
+  boundary with no carrier is not designed yet. A plain crossfade between unrelated scenes is
   not a transition.
 - **Beat sheet.** The writer's landing words and the director's cuts go
-  into `beats.json` (`references/beat-sheet.md`); the composer adds tempo
-  and sound, then all three run the coherence pass until no requests are
-  open.
+  into `beats.json` (`references/beat-sheet.md`); the sound designer adds
+  the few sounds (every other beat is `(silent)`), then all three run the
+  coherence pass until no requests are open.
 - Record it all in the spec (`references/spec-template.md` has the tables)
   and confirm it with the user alongside the storyboard.
 
@@ -374,28 +376,35 @@ ffmpeg -f rawvideo -pix_fmt rgba -s 1920x1080 -r 30 -i - \
 - **Narration timing:** one TTS clip per line. Print each clip's start,
   end and duration; shorten words or move start times until no lines overlap
   and each sits inside its scene.
-- **Music** (synthesised, copyright-free) is written by
-  `q-motion:music-composer` from the transition map, not as a loop laid
-  under the picture. It fits the tempo so the important cuts land within
-  one frame of the beat grid, gives every boundary a device (riser into
-  the cut, reverse swell, the gap before the money shot, downbeat change,
-  filter open, sustain carry, stinger), states a short motif at the hook
-  and resolves it on the end card, and derives its instrument palette from
-  the agreed visual style. No tinkly sine-piano arpeggios, corporate
-  ukulele, or four-chord loop unless the user asks for it
-- **SFX recipes:** whoosh or riser = noise through a sweeping band-pass; hit or thump
-  = pitch-drop sine + low-passed noise; pop = fast chirp; tick = 30 ms sine; glass or
-  bell = sine + upper partials with decay; scratch = band-passed noise with 9 Hz
-  modulation. Place each on the exact scene event times, tuned to the score's key
-- **Mix:** duck music 4–6 dB while the voice is active (smoothed envelope,
-  ~60 ms attack, ~250 ms release) and cut the music's 1–4 kHz band under the
-  voice, render in stereo, soft-clip with `tanh`, let the final chord ring,
-  normalise peak to 0.89. Target about -14 LUFS for social, -16 LUFS for web
-  (`ffmpeg -af ebur128`). Print every hit's distance to its cut in frames;
-  anything over one frame is a bug
+- **Sound rules** — owned by `q-motion:sound-designer`
+  (`agents/sound-designer.md` has the full rules and building blocks). The
+  narration leads; sound design is restraint:
+  - **Banned:** music of any kind (beds, pads, scores, drones, stingers);
+    wind / air / whoosh / swoosh / risers; thumps, booms, impacts, hits;
+    repeated or reused sounds (per-character typing clicks, counter ticks,
+    multi-click patterns, one generator used for several moments); bells,
+    chimes, "ting".
+  - **Only the big moments** — a scene change where something lands, and
+    the end card. About five sounds in 20 s, five to seven in 30 s, at most
+    ten in 60 s. Everything else is silent.
+  - **One gesture each, a different material each** (metal, wood, plastic,
+    water, paper…), chosen for what the moment means in the film's own
+    subject — e.g. a camera shutter as the first frame appears, a keycap
+    bottoming out as the cursor lands.
+  - **Quiet and exact:** about 10 dB under the voice peak, never on a
+    landing word, within one frame of the picture event; the breath before
+    the end card is silent; one short shared room reverb.
+  - If the user asks for music, say it is outside q-motion's sound rules
+    and can be laid in an editor afterwards.
+- **Mix:** voice centre and untouched (no bed, so no ducking), effects
+  placed and panned toward where their element lands, soft-clip with
+  `tanh`, normalise peak to 0.89, then loudness-normalise the mux to about
+  -14 LUFS for social, -16 LUFS for web (`loudnorm=I=-14:TP=-1:LRA=11`,
+  check with `ffmpeg -af ebur128`). Print every effect's distance to its
+  picture event in frames; anything over one frame is a bug
 - **Sync check** before the mux: for every beat in `beats.json`, compare the
   planned time with the real cut frame, the real start of the landing word
-  and the real music hit (method in `references/beat-sheet.md` §4). Print
+  and the real effect onset (method in `references/beat-sheet.md` §4). Print
   the table; any cut or accent more than one frame out, or a landing word
   more than three frames out, goes back to its owner
 - **Mux** without re-encoding video:
@@ -405,11 +414,13 @@ ffmpeg -i video.mp4 -i soundtrack.wav -map 0:v -map 1:a \
   -c:v copy -c:a aac -b:a 128k -shortest -movflags +faststart final.mp4
 ```
 
-Working audio scripts: `references/examples/handdrawn-mix.py` (music bed, SFX and
-narration synced to a 30 s film), `references/examples/mix10.py` (dark cinematic bed
-for a 10 s data piece), and the two `vo.py` narration generators (English via
-Kokoro; for Indonesian, swap the loader for the Piper block in the routing
-snippet above).
+Working audio scripts: `promo/reel-20s/mix.py` is the reference for the
+current sound rules (narration plus five single, distinct effects). The
+two `vo.py` narration generators in `references/examples/` show the TTS
+side (English via Kokoro; for Indonesian, swap the loader for the Piper
+block in the routing snippet above). `references/examples/handdrawn-mix.py`
+and `mix10.py` predate the sound rules — read them only for the pipeline
+(placing clips, stereo, normalising), never for their music or effects.
 
 ## 9. Honesty and brand rules
 
