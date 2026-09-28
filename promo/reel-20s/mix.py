@@ -1,6 +1,6 @@
 # Soundtrack for the 20 s q-motion reel: narration first.
-# No music. Only the big moments get a sound - a soft swoosh or felt thump
-# on each scene change and the end card - so nothing competes with the voice.
+# No music, no wind/swoosh sounds (banned). Only the big moments get a soft
+# felt thump, so nothing competes with the voice.
 import json, numpy as np, soundfile as sf
 from scipy.signal import resample_poly, butter, sosfilt, fftconvolve
 
@@ -21,15 +21,7 @@ def place(sig, t0, g=1.0, pan=0.0):
     if j > i:
         L[i:j] += (sig * np.cos(a) * g)[:j - i]; R[i:j] += (sig * np.sin(a) * g)[:j - i]
 
-# ---------- two sounds ----------
-def air(t0, d, g, lo, hi, pan=0.0):
-    # airy whoosh: noise through a band that rises then falls, soft in and out
-    n = int(d * SR); x = noise(d); out = np.zeros(n); sg = 512
-    for i in range(0, n, sg):
-        u = i / n; f = lo + (hi - lo) * np.sin(np.pi * u) ** 1.5
-        out[i:i + sg] = bp(x[max(0, i - 2048):i + sg], f * 0.55, min(20000, f * 1.5))[-len(out[i:i + sg]):]
-    env = np.sin(np.pi * np.linspace(0, 1, n)) ** 2
-    place(out * env, t0, g, pan)
+# ---------- one sound ----------
 def thump(t0, g, f=62, pan=0.0):
     # felt thump: soft pitched body, no click
     t = tt(0.5); s = np.sin(2 * np.pi * (f + f * 0.6 * np.exp(-t * 30)) * t) * np.exp(-t * 11)
@@ -38,14 +30,10 @@ def thump(t0, g, f=62, pan=0.0):
 
 # ---------- the big moments only: the five scene changes + the end card ----------
 # Everything else stays silent so the narration carries the film.
-air(2.78, 0.44, 0.10, 300, 1800, (-0.2, 0.0))          # 3.0  caret grows into the video frame
 thump(3.20, 0.32)                                       #      frame lands
-air(6.85, 0.45, 0.08, 400, 2200, (0.0, -0.5))           # 7.0  frame shrinks into the filmstrip
 thump(10.80, 0.26, 70, -0.3)                            # 10.5 square becomes the bar, bar lands
-air(13.80, 0.50, 0.08, 300, 1800, (-0.5, 0.2))          # 14.0 bar lays down into a track
 thump(16.68, 0.24, 58)                                  # 16.7 three tracks collapse into one line
 # 16.7 - 17.0: silence - the breath before the end card
-air(17.00, 0.60, 0.09, 500, 3000, (-0.7, 0.4))          # 17.0 line contracts, wordmark wipes on
 thump(17.52, 0.32, 55, 0.3)                             #      caret lands
 
 # ---------- one small room for all effects ----------
