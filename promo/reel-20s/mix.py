@@ -1,6 +1,7 @@
 # Soundtrack for the 20 s q-motion reel: narration first.
-# No music, no wind/swoosh, no thumps (all banned). Five small mechanical
-# sounds from the film's own world mark the big moments; the voice leads.
+# No music, no wind/swoosh, no thumps, no repeated or reused sounds (all
+# banned). Five single sounds, each a different material, mark the big
+# moments; the voice leads.
 import json, numpy as np, soundfile as sf
 from scipy.signal import resample_poly, butter, sosfilt, fftconvolve
 
@@ -21,52 +22,51 @@ def place(sig, t0, g=1.0, pan=0.0):
     if j > i:
         L[i:j] += (sig * np.cos(a) * g)[:j - i]; R[i:j] += (sig * np.sin(a) * g)[:j - i]
 
-# ---------- the palette: small mechanical sounds from the film's own world ----------
-def modal(freqs, decays, amps, d=0.12):
-    # a struck object: a few damped inharmonic partials
+# ---------- the palette: five sounds, each one gesture, each its own material ----------
+# Nothing is reused or repeated: no shared click, no multi-hit patterns.
+def partials(freqs, decays, amps, d):
     t = tt(d)
-    return sum(a * np.sin(2 * np.pi * f * t + rng.random() * 6) * np.exp(-t * k) for f, k, a in zip(freqs, decays, amps))
-def click(bright=1.0, body=1.0, d=0.06):
-    # one soft mechanical click: a tiny noise transient plus its resonance
-    t = tt(d)
-    x = bp(noise(d), 1200, 5500) * np.exp(-t * 420) * 0.6 * bright
-    x += modal([1850 * bright, 3100 * bright, 740 * body], [180, 260, 120], [0.35, 0.18, 0.3], d)
-    return lp(x, 6500) * np.minimum(1, t / 0.0008)
+    return sum(a * np.sin(2 * np.pi * f * t + 0.7 * i) * np.exp(-t * k) for i, (f, k, a) in enumerate(zip(freqs, decays, amps)))
 
 def shutter(t0, g, pan=0.0):
-    # camera shutter: open click, a breath of mechanism, a lower close click
-    place(click(1.1, 1.0), t0, g, pan)
-    t = tt(0.05); place(bp(noise(0.05), 2500, 6000) * np.exp(-t * 60) * 0.15, t0 + 0.012, g, pan)
-    place(click(0.8, 0.9), t0 + 0.065, g * 0.8, pan)
-def sprocket(t0, g, pan=(0.0, -0.4)):
-    # film advancing: three quick soft sprocket clicks, easing off
-    for k in range(3):
-        p = pan[0] + (pan[1] - pan[0]) * k / 2
-        place(click(0.9 - 0.06 * k, 0.8), t0 + k * 0.045, g * (1 - 0.22 * k), p)
+    # metal - a camera shutter: one crisp snap, a short spring buzz underneath
+    d = 0.07; t = tt(d)
+    snap = hp(noise(d), 2500) * np.exp(-t * 380)
+    spring = partials([3300, 5200], [120, 160], [0.25, 0.12], d)
+    place(lp(snap * 0.7 + spring, 9000) * np.minimum(1, t / 0.0005), t0, g, pan)
+def woodblock(t0, g, pan=0.0):
+    # wood - a small hollow block: warm knock, gone in a tenth of a second
+    d = 0.14; t = tt(d)
+    s = partials([880, 2410, 3960], [55, 95, 140], [1.0, 0.35, 0.12], d)
+    s += lp(noise(d), 3000) * np.exp(-t * 400) * 0.3
+    place(s * np.minimum(1, t / 0.001), t0, g, pan)
 def pop(t0, g, pan=0.0):
-    # a small soft pop: fast upward pitch glide, rounded off
+    # air in water - a small soft pop: fast upward pitch glide, rounded off
     t = tt(0.09); f = 260 + 520 * (1 - np.exp(-t * 90))
     s = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t * 55) * np.minimum(1, t / 0.002)
     place(lp(s, 3000), t0, g, pan)
-def latch(t0, g, pan=0.0):
-    # click-lock: a catch, then the lock seating, with a short metallic tail
-    place(click(1.0, 0.7), t0, g * 0.7, pan)
-    place(click(1.25, 1.1) + modal([2350, 4720], [45, 70], [0.12, 0.05], 0.12)[:int(0.06 * SR)], t0 + 0.028, g, pan)
+def lock(t0, g, pan=0.0):
+    # heavy metal - a latch seating: one dull strike with a low metallic ring
+    d = 0.35; t = tt(d)
+    s = partials([610, 1487, 2760, 4130], [18, 26, 40, 60], [0.5, 0.35, 0.2, 0.08], d)
+    s += bp(noise(d), 800, 4000) * np.exp(-t * 250) * 0.5
+    place(lp(s, 7000) * np.minimum(1, t / 0.0008), t0, g, pan)
 def enter_key(t0, g, pan=0.0):
-    # a mechanical Enter keypress: switch click, bottom-out, and the return stroke
-    place(click(1.05, 1.0), t0, g, pan)
-    t = tt(0.04); place(modal([420, 980], [140, 200], [0.5, 0.25], 0.04) * np.minimum(1, t / 0.001), t0 + 0.012, g * 0.8, pan)
-    place(click(0.9, 0.8), t0 + 0.11, g * 0.45, pan)
+    # plastic - a keycap bottoming out: short, round, a touch hollow
+    d = 0.06; t = tt(d)
+    s = partials([420, 1150, 2600], [110, 160, 300], [0.6, 0.3, 0.15], d)
+    s += bp(noise(d), 1500, 5000) * np.exp(-t * 500) * 0.35
+    place(s * np.minimum(1, t / 0.0008), t0, g, pan)
 
 # ---------- the big moments only ----------
-# No music, no wind or swoosh, no thumps (banned). Everything else stays
-# silent so the narration carries the film.
-shutter(3.20, 0.22)                                     # 3.2  the spec becomes a picture: frame appears
-sprocket(7.05, 0.16)                                    # 7.0  the frame advances into the filmstrip
+# Banned: music, wind or swoosh, thumps, repeated or reused sounds.
+# Everything else stays silent so the narration carries the film.
+shutter(3.20, 0.18)                                     # 3.2  the spec becomes a picture: frame appears
+woodblock(7.10, 0.16, -0.2)                             # 7.1  the frame settles into the filmstrip
 pop(10.80, 0.20, -0.3)                                  # 10.8 the bar lands
-latch(16.68, 0.22)                                      # 16.7 three tracks lock into one line
+lock(16.70, 0.16)                                       # 16.7 three tracks lock into one line
 # 16.7 - 17.0: silence - the breath before the end card
-enter_key(17.52, 0.24, 0.3)                             # 17.5 caret lands: Enter - generate
+enter_key(17.52, 0.26, 0.3)                             # 17.5 caret lands: Enter - generate
 
 # ---------- one small room for all effects ----------
 def ir(seed, sec=0.9, decay=7.0):
