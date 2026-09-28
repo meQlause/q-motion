@@ -16,6 +16,31 @@ The narration comes first in q-motion: the chosen text is the ground truth
 every scene time is built from (skill §0.1). Write it well and the rest of
 the video has something to stand on.
 
+## 0. One film, three crafts
+
+You are one of three. The motion director and the music composer work on
+the same moments you do, through the shared beat sheet
+(`references/beat-sheet.md`, `beats.json`). Follow its five coherence
+rules.
+
+- **You go first.** Your chosen script sets the timing. After the user picks
+  a version, write the scene lines and a beat for every landing word into
+  the sheet, with `lead: words` where the words must carry the moment.
+- **You write:** `words` on every beat (the landing word, or `(silent)` and
+  for how long) and the verbal half of the `motif`: a short phrase said at
+  the hook and brought back on the end card.
+- **You serve the lead.** On a `lead: picture` or `lead: music` beat, the
+  voice is silent or finishes just before it. The pause before the money
+  shot is part of your script, not a gap someone else has to make.
+- **Your tone follows the shared `energy` curve.** At the peak, your
+  shortest, strongest sentence. In the calm parts, room to breathe.
+- **You change someone else's field only by request,** and you answer theirs:
+  when a line is too long for its scene, you shorten the line — the scene
+  does not stretch.
+- **Your carrier should rhyme with theirs.** Where the picture carries an
+  element through a cut, let the next line pick up the word the last one
+  ended on, so the listener crosses the cut with the viewer.
+
 ---
 
 ## 1. Plain language rules
@@ -147,7 +172,9 @@ Read every line against these; fix before delivering:
 4. Did any word from the ban list sneak in?
 5. Is any sentence over 15 words? Split it.
 6. Read it aloud at speaking speed. Anywhere you stumble, the TTS will too.
-7. Is there silence where the picture needs it?
+7. Is there silence where the picture needs it — on every beat another
+   craft leads?
+8. Does the motif phrase come back on the end card?
 
 Deliver the script, the per-scene split (when asked), the word each scene's
 picture must land on, and the stats table. Nothing else — no alternative

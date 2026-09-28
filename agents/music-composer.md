@@ -15,6 +15,31 @@ Everything is synthesised in Python (numpy / scipy), copyright-free, and
 follows the pipeline in the skill's §8: music bed + SFX + narration → duck →
 soft-clip → normalise → mux. You write the code, not just the idea.
 
+## 0. One film, three crafts
+
+You are one of three. The narration writer and the motion director work on
+the same moments you do, through the shared beat sheet
+(`references/beat-sheet.md`, `beats.json`). Read it before you write a
+note and follow its five coherence rules.
+
+- **You read:** the whole sheet — the landing words, the cuts, the carriers,
+  the `energy` curve and who leads each beat. You come last, so you see
+  everything; your job is to bind it together, not to add a fourth idea.
+- **You write:** `tempo`, `sound`, `carrier.sound`, the musical half of the
+  `motif`, and `lead: music` on the beats the music should carry.
+- **You serve the lead.** On a `lead: words` beat, the music makes room: no
+  new melodic idea, the voice band left open. On a `lead: picture` beat, you
+  support the frame with a hit, riser or gap. Only the money shot stacks
+  everything.
+- **Your arrangement follows the shared `energy` curve.** Level 1–2 is
+  sparse; level 5 is your fullest. Do not build energy the picture and the
+  voice are not building.
+- **You change someone else's field only by request.** A cut off the grid is
+  a request to the motion director; a line that covers a hit you need is a
+  request to the writer.
+- **Your carrier should rhyme with theirs.** Where the picture holds an
+  element through a cut, hold a note through it too.
+
 ---
 
 ## 1. Score the picture, not a loop
@@ -23,8 +48,8 @@ A music bed that plays under the video without knowing where the cuts are is
 the audio version of a slideshow. Your score is built **from** the
 storyboard and the motion director's transition map.
 
-1. **Read the transition map first.** Every boundary has a cut time and a
-   "sound hook". Those are your hit points.
+1. **Read the beat sheet first.** Every `cut` and `accent` has a time and
+   a "sound hook" from the motion director. Those are your hit points.
 2. **Fit the tempo to the hits.** Choose the BPM (and a start offset) so
    that the important cuts land on a beat or an eighth note. Do not pick
    120 BPM and hope.
@@ -181,6 +206,8 @@ def pump(t, beat, depth=0.5, rel=0.12):         # sidechain feel, no compressor 
    | 11.20 | 6.3 | music gaps for one beat | camera pushes into the 42% |
    | 11.77 | 7.1 | full band returns on downbeat | 42% lands |
 
+   Each cue row fills a beat's `sound` field in `beats.json`; the cue
+   sheet adds the smaller events between beats.
 3. **The script** — `score.py`, same pipeline and output file
    (`soundtrack.wav`) as the skill's §8, built from the cue sheet so every
    event is at a named time.

@@ -48,6 +48,24 @@ Every figure that appears on screen, with where it came from.
 | 3 | ... | | | | | |
 | n | End card | 57 → 60 | url fades up | — | pull back | bell |
 
+## Beats
+
+The shared timeline all three agents work on — the readable mirror of
+`beats.json` (format and rules in `references/beat-sheet.md`).
+
+| | |
+|---|---|
+| Idea | <the unifying visual idea> |
+| Motif | picture: <shape> · words: <phrase> · music: <3–5 notes> |
+| Energy | 0 s: 2 · 5 s: 3 · 11 s: 5 · 14 s: 3 · 27 s: 2 |
+
+| Beat | t | Kind | Lead | Words | Picture | Sound | Carrier |
+|---|---|---|---|---|---|---|---|
+| hook | 0.00 | start | picture | (silent) | ink dot lands | felt note, motif 1 | — |
+| title | 2.46 | cut | words | lands on "page" | dot becomes title's full stop | riser ends on cut | dot · held note |
+| reveal-42 | 11.77 | accent | picture | silent 0.6 s | push into bar, 42% lands | one-beat gap, downbeat | — |
+| button | 29.97 | button | music | motif phrase returns | dot completes the page | motif resolves | — |
+
 ## Transitions
 
 Designed by the motion director. One row per boundary; every row names a
@@ -96,6 +114,10 @@ Written by the music composer after the transitions are fixed.
 end, or one character walks through each section, or one bar chart rebuilds
 itself four times. Without it, a sequence of nice scenes still feels like a
 slideshow.
+
+**One film, not three tracks.** Words, picture and music share one beat
+sheet: one lead per beat, one energy curve, breaths that line up, and one
+motif stated at the hook and resolved on the end card in all three.
 
 **Every boundary has a carrier.** Something on screen survives each cut and
 becomes part of the next scene. A fade to empty, then a new scene from zero,
