@@ -9,6 +9,29 @@ Build the video as a program: one scene description plus a clock. Every frame is
 `frame(t)`, a pure function of time, so all frames stay coherent automatically.
 No AI image or video generation.
 
+The goal is a piece that feels **designed and continuous**: one line of motion
+that changes shape, scored to the cut and narrated in plain words. Not a
+slideshow with fades, not a stock-music loop, not an ad-copy voiceover.
+
+## The team
+
+Three specialist agents ship with this plugin. Hand each its part of the
+work through the Agent tool, give it the spec and whatever the earlier
+agents produced, and hold its output to its own checklist. Do not write
+their part yourself from scratch — their files hold the craft rules.
+
+| Agent | Owns | Called in |
+|---|---|---|
+| `q-motion:narration-writer` | The three narration versions, the per-scene split, the word each scene must land on | §0.1, §1 |
+| `q-motion:motion-director` | The through-line, energy curve, **transition map**, entrance/exit vocabulary, contact-sheet and boundary-strip review | §1, §6 |
+| `q-motion:music-composer` | Tempo fitted to the cuts, cue sheet, `score.py`, SFX tuned to the score, the final mix | §8 |
+
+Order matters: **words → picture → sound.** The narration sets the timing,
+the motion director designs the cuts around it, and the composer scores the
+cuts the motion director placed. When one of them needs a change from
+another (a cut moved two frames to land on a beat, a line shortened to fit a
+scene), route it back to the owner instead of patching it silently.
+
 ---
 
 ## 0. Intake — three decisions, in order
@@ -27,7 +50,9 @@ Ask the user for the message: product, topic, feeling, punchline. Do **not**
 ask for length, scene count or aspect ratio yet — those are downstream of
 the narration.
 
-Draft **three complete narration versions** as plain paragraphs. Each is
+Have `q-motion:narration-writer` draft **three complete narration
+versions** as plain paragraphs, in plain spoken language a non-native
+listener follows on first hearing, with no marketing filler. Each is
 one continuous piece of copy a voiceover would read start to finish. **No
 timestamps, no scene labels, no `[music swells]` cues** — just the words.
 Vary the angle across the three:
@@ -39,7 +64,8 @@ Vary the angle across the three:
    changes it. Skip this variant only when the user has no sourced numbers
    to name.
 
-Print all three side by side; the user picks one, or asks for a fourth in
+Print all three side by side with the writer's stats table under each
+(words, read time, longest sentence, numbers named); the user picks one, or asks for a fourth in
 the same shape. Do not proceed until one is chosen. Save the chosen text
 — it is the ground truth every later scene time is derived from.
 
@@ -130,6 +156,19 @@ built is not.
 - Pacing for 30 s: hook 0 to 2.5 s, title by 5 s, 3 sections of 3 to 6 s, rapid
   stat cards (about 0.4 s each), end card for the last 2.5 s. For 10 s: two scenes
   of about 5 s each. For 60 s: hook, then 4 to 6 sections of 8 to 10 s, end card 3 s
+- **Narration split.** `q-motion:narration-writer` splits the chosen text
+  into one line per scene and marks the word each scene's picture must
+  land on.
+- **Transition map.** `q-motion:motion-director` designs every scene
+  boundary before any drawing code: the **carrier** (what survives the cut
+  and becomes part of the next scene), the technique (shape match,
+  element hand-off, camera through, continuous pan, content mask, match cut,
+  colour carry, hard cut on the beat), its length in frames (6–12 at 30 fps),
+  motion direction, and the sound hook for the composer. A boundary with no
+  carrier is not designed yet. A plain crossfade between unrelated scenes is
+  not a transition.
+- Record both in the spec (`references/spec-template.md` has the tables)
+  and confirm them with the user alongside the storyboard.
 
 ## 2. Stack and setup
 
@@ -179,8 +218,17 @@ the `piper-tts` line, and vice versa.
   Interpolate zoom in log space
 - Screen shake: `[time, amplitude]` impulses,
   `offset = sum(amp * exp(-9*dt) * sin(fast))`
-- For simple two-scene pieces, skip the world canvas: crossfade scenes with alpha
-  plus a small lateral slide and zoom
+- For simple two-scene pieces, skip the world canvas — but still carry
+  something across: keep one element on screen while the scene rebuilds
+  around it, or grow a shape from scene one into the mask for scene two.
+  Alpha crossfade only when both scenes share layout (same positions,
+  different data)
+- **Overlap scenes.** Let scene N+1's first element start 3–6 frames before
+  scene N's last one settles; `panel` time ranges overlap across a
+  boundary instead of butting end to start
+- **Motion blur for free.** Frames are pure, so average `frame(t)` at 4–8
+  sub-times inside a 180° shutter on fast camera moves and transition
+  frames (see the motion director's §4)
 
 See `references/examples/handdrawn-film.mjs` for the full world-canvas pattern and
 `references/examples/glow.mjs` for the simpler two-scene one.
@@ -189,7 +237,10 @@ See `references/examples/handdrawn-film.mjs` for the full world-canvas pattern a
 
 The style itself came from §0.2 (a reference, or a treatment the user
 picked). This section names the reusable building blocks, not a look:
-pull only the ones the chosen style calls for.
+pull only the ones the chosen style calls for. Anything the style anchor
+does not contain — default glow, particle dust, purple gradients,
+scale-up fade-ins on every element, everything centered — is off the
+table; the motion director's §5 has the full banned list.
 
 - **Deterministic randomness.** FNV-1a hash of a string id; **never
   `Math.random`**. Wobble, jitter, sprite scatter, dust drift — anything
@@ -231,7 +282,16 @@ compose, not as prescriptions:
 - `seg(t,a,b) = clamp((t-a)/(b-a))`, `lerp`, ease-out cubic/quint, in-out cubic,
   back (overshoot), elastic for needles and pops
 - Counters: `value * ease(seg(...))`. Stamps: scale 2.6 to 1 plus a shake.
-  Speed lines when camera velocity exceeds about 40 px per frame
+  Speed lines when camera velocity exceeds about 40 px per frame (sketch
+  styles; otherwise use motion blur)
+- Arrivals ease-out expo/quint, departures ease-in, camera moves an
+  asymmetric in-out. Never linear for anything that starts or stops
+- **Velocity continuity.** A camera move or object that carries through a
+  cut is one eased curve split at the cut, not two eases that each stop
+  at zero speed — a stop on the cut is what makes it feel like a slide
+  change
+- Stagger siblings 2–4 frames apart; text holds at least
+  `0.4 s + words / 3.5` after it arrives
 
 ## 6. QA before the full render
 
@@ -239,6 +299,12 @@ compose, not as prescriptions:
   sheet (Pillow) and **look at it**
 - Check overlaps (labels vs lines), contrast (text on bars), text leaving the frame,
   wrong numbers
+- **Boundary strips.** A contact sheet cannot show a transition. For each
+  boundary, render frames at cut −6, −3, 0, +3, +6 into one strip. Frame 0
+  must look like a designed frame, not two slides blended; a carrier must be
+  visible in every frame; nothing empty for more than 2 frames
+- Hand the contact sheet and strips to `q-motion:motion-director` for
+  review; apply its frame-level fixes
 - Fix, then re-check only the affected frames
 
 > Rendering 1800 frames to discover a label sits outside the frame costs an hour.
@@ -286,16 +352,25 @@ ffmpeg -f rawvideo -pix_fmt rgba -s 1920x1080 -r 30 -i - \
 - **Narration timing:** one TTS clip per line. Print each clip's start,
   end and duration; shorten words or move start times until no lines overlap
   and each sits inside its scene.
-- **Music** (synthesised, copyright-free). Upbeat: 4-chord pad, 8th-note arpeggio,
-  kick (pitch-drop sine) and hats (band-passed noise). Dark or cinematic: detuned
-  minor pad through a low-pass, sub-bass heartbeat pulse, faint high shimmer ticks
+- **Music** (synthesised, copyright-free) is written by
+  `q-motion:music-composer` from the transition map, not as a loop laid
+  under the picture. It fits the tempo so the important cuts land within
+  one frame of the beat grid, gives every boundary a device (riser into
+  the cut, reverse swell, the gap before the money shot, downbeat change,
+  filter open, sustain carry, stinger), states a short motif at the hook
+  and resolves it on the end card, and derives its instrument palette from
+  the agreed visual style. No tinkly sine-piano arpeggios, corporate
+  ukulele, or four-chord loop unless the user asks for it
 - **SFX recipes:** whoosh or riser = noise through a sweeping band-pass; hit or thump
   = pitch-drop sine + low-passed noise; pop = fast chirp; tick = 30 ms sine; glass or
   bell = sine + upper partials with decay; scratch = band-passed noise with 9 Hz
-  modulation. Place each on the exact scene event times
-- **Mix:** duck music to about 45 to 50% while the voice is active (smoothed envelope),
-  soft-clip with `tanh`, fade out 0.5 s, normalise peak to 0.89. Target about
-  -16 LUFS (`ffmpeg -af ebur128`)
+  modulation. Place each on the exact scene event times, tuned to the score's key
+- **Mix:** duck music 4–6 dB while the voice is active (smoothed envelope,
+  ~60 ms attack, ~250 ms release) and cut the music's 1–4 kHz band under the
+  voice, render in stereo, soft-clip with `tanh`, let the final chord ring,
+  normalise peak to 0.89. Target about -14 LUFS for social, -16 LUFS for web
+  (`ffmpeg -af ebur128`). Print every hit's distance to its cut in frames;
+  anything over one frame is a bug
 - **Mux** without re-encoding video:
 
 ```
