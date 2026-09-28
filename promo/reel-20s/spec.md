@@ -34,12 +34,12 @@
 
 | # | Scene | t0 → t1 | Lead | Words (lands on) | Picture | Sound |
 |---|---|---|---|---|---|---|
-| 1 | Write | 0 → 3.0 | picture | "say" | caret blinks, types a 4-line `launch.md` spec | felt thump as the frame lands |
-| 2 | Render | 3.0 → 7.0 | words | "code" | caret grows into the 9:16 frame; the mini-film plays; its code slides in, a marker steps through it | — |
+| 1 | Write | 0 → 3.0 | picture | "say" | caret blinks, types a 4-line `launch.md` spec | camera shutter as the frame appears (3.2) |
+| 2 | Render | 3.0 → 7.0 | words | "code" | caret grows into the 9:16 frame; the mini-film plays; its code slides in, a marker steps through it | three soft film-sprocket clicks as the frame joins the strip (7.05) |
 | 3 | frame(t) | 7.0 → 10.5 | picture | "drifts" | frame shrinks into a filmstrip; a second render slides in identical; orange scan line | — |
-| 4 | Exact / yours | 10.5 → 14.0 | picture | "exact", "yours" | one frame's square becomes a bar; counter lands on 42%; bar re-skins sketch → glass → pixel, number unchanged | felt thump as the bar lands |
-| 5 | One film | 14.0 → 17.0 | music | "one film" | bar lays down into the picture track; words and music tracks join; playhead; all three collapse into one line | felt thump as tracks collapse; then silence |
-| 6 | End card | 17.0 → 20.0 | all | "Get the film" | line contracts into the caret and wipes on the wordmark; tagline, command, repo | felt thump as the caret lands |
+| 4 | Exact / yours | 10.5 → 14.0 | picture | "exact", "yours" | one frame's square becomes a bar; counter lands on 42%; bar re-skins sketch → glass → pixel, number unchanged | small soft pop as the bar lands (10.8) |
+| 5 | One film | 14.0 → 17.0 | music | "one film" | bar lays down into the picture track; words and music tracks join; playhead; all three collapse into one line | latch click-lock as the tracks become one line (16.7); then silence |
+| 6 | End card | 17.0 → 20.0 | all | "Get the film" | line contracts into the caret and wipes on the wordmark; tagline, command, repo | one mechanical Enter keypress as the caret lands (17.5) |
 
 ## Transitions
 
@@ -68,10 +68,10 @@ No music. The narration leads; effects mark only the big moments.
 
 | | |
 |---|---|
-| Effects | 4 soft felt thumps — frame lands (3.2), bar lands (10.8), tracks collapse (16.7), caret lands (17.5) |
-| Banned | wind / air / swoosh sounds, music beds |
+| Effects | 5 small mechanical sounds from the film's own world: shutter (3.2), sprocket (7.05), pop (10.8), latch (16.7), Enter key (17.5) |
+| Banned | music beds, wind / air / swoosh sounds, thumps |
 | Breath | 16.7 → 17.0 s is silent before the end card |
-| Mix | effects peak about 8 dB under the voice; −14 LUFS integrated |
+| Mix | effects peak about 10 dB under the voice; −14 LUFS integrated |
 
 ## Build
 

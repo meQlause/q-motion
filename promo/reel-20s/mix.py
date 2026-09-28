@@ -1,6 +1,6 @@
 # Soundtrack for the 20 s q-motion reel: narration first.
-# No music, no wind/swoosh sounds (banned). Only the big moments get a soft
-# felt thump, so nothing competes with the voice.
+# No music, no wind/swoosh, no thumps (all banned). Five small mechanical
+# sounds from the film's own world mark the big moments; the voice leads.
 import json, numpy as np, soundfile as sf
 from scipy.signal import resample_poly, butter, sosfilt, fftconvolve
 
@@ -21,20 +21,52 @@ def place(sig, t0, g=1.0, pan=0.0):
     if j > i:
         L[i:j] += (sig * np.cos(a) * g)[:j - i]; R[i:j] += (sig * np.sin(a) * g)[:j - i]
 
-# ---------- one sound ----------
-def thump(t0, g, f=62, pan=0.0):
-    # felt thump: soft pitched body, no click
-    t = tt(0.5); s = np.sin(2 * np.pi * (f + f * 0.6 * np.exp(-t * 30)) * t) * np.exp(-t * 11)
-    s += lp(noise(0.5), 400) * np.exp(-t * 25) * 0.25
-    place(s * np.minimum(1, t / 0.004), t0, g, pan)
+# ---------- the palette: small mechanical sounds from the film's own world ----------
+def modal(freqs, decays, amps, d=0.12):
+    # a struck object: a few damped inharmonic partials
+    t = tt(d)
+    return sum(a * np.sin(2 * np.pi * f * t + rng.random() * 6) * np.exp(-t * k) for f, k, a in zip(freqs, decays, amps))
+def click(bright=1.0, body=1.0, d=0.06):
+    # one soft mechanical click: a tiny noise transient plus its resonance
+    t = tt(d)
+    x = bp(noise(d), 1200, 5500) * np.exp(-t * 420) * 0.6 * bright
+    x += modal([1850 * bright, 3100 * bright, 740 * body], [180, 260, 120], [0.35, 0.18, 0.3], d)
+    return lp(x, 6500) * np.minimum(1, t / 0.0008)
 
-# ---------- the big moments only: the five scene changes + the end card ----------
-# Everything else stays silent so the narration carries the film.
-thump(3.20, 0.32)                                       #      frame lands
-thump(10.80, 0.26, 70, -0.3)                            # 10.5 square becomes the bar, bar lands
-thump(16.68, 0.24, 58)                                  # 16.7 three tracks collapse into one line
+def shutter(t0, g, pan=0.0):
+    # camera shutter: open click, a breath of mechanism, a lower close click
+    place(click(1.1, 1.0), t0, g, pan)
+    t = tt(0.05); place(bp(noise(0.05), 2500, 6000) * np.exp(-t * 60) * 0.15, t0 + 0.012, g, pan)
+    place(click(0.8, 0.9), t0 + 0.065, g * 0.8, pan)
+def sprocket(t0, g, pan=(0.0, -0.4)):
+    # film advancing: three quick soft sprocket clicks, easing off
+    for k in range(3):
+        p = pan[0] + (pan[1] - pan[0]) * k / 2
+        place(click(0.9 - 0.06 * k, 0.8), t0 + k * 0.045, g * (1 - 0.22 * k), p)
+def pop(t0, g, pan=0.0):
+    # a small soft pop: fast upward pitch glide, rounded off
+    t = tt(0.09); f = 260 + 520 * (1 - np.exp(-t * 90))
+    s = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t * 55) * np.minimum(1, t / 0.002)
+    place(lp(s, 3000), t0, g, pan)
+def latch(t0, g, pan=0.0):
+    # click-lock: a catch, then the lock seating, with a short metallic tail
+    place(click(1.0, 0.7), t0, g * 0.7, pan)
+    place(click(1.25, 1.1) + modal([2350, 4720], [45, 70], [0.12, 0.05], 0.12)[:int(0.06 * SR)], t0 + 0.028, g, pan)
+def enter_key(t0, g, pan=0.0):
+    # a mechanical Enter keypress: switch click, bottom-out, and the return stroke
+    place(click(1.05, 1.0), t0, g, pan)
+    t = tt(0.04); place(modal([420, 980], [140, 200], [0.5, 0.25], 0.04) * np.minimum(1, t / 0.001), t0 + 0.012, g * 0.8, pan)
+    place(click(0.9, 0.8), t0 + 0.11, g * 0.45, pan)
+
+# ---------- the big moments only ----------
+# No music, no wind or swoosh, no thumps (banned). Everything else stays
+# silent so the narration carries the film.
+shutter(3.20, 0.22)                                     # 3.2  the spec becomes a picture: frame appears
+sprocket(7.05, 0.16)                                    # 7.0  the frame advances into the filmstrip
+pop(10.80, 0.20, -0.3)                                  # 10.8 the bar lands
+latch(16.68, 0.22)                                      # 16.7 three tracks lock into one line
 # 16.7 - 17.0: silence - the breath before the end card
-thump(17.52, 0.32, 55, 0.3)                             #      caret lands
+enter_key(17.52, 0.24, 0.3)                             # 17.5 caret lands: Enter - generate
 
 # ---------- one small room for all effects ----------
 def ir(seed, sec=0.9, decay=7.0):
